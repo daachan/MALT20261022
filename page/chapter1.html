@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 1 — デザイン・エンタメ・アート</title>
+  <link rel="stylesheet" href="/src/styles/base.css" />
+  <link rel="stylesheet" href="/src/styles/slides.css" />
+  <link rel="stylesheet" href="/src/styles/rich.css" />
+</head>
+<!-- 戻る/進むで離脱したときの index 側の復帰位置を data-prev / data-next で指定 -->
+<body class="deck" data-chapter="CHAPTER 1" data-prev="index.html#s3" data-next="index.html#s4">
+  <div class="grain"></div>
+
+  <!-- --x / --y / --w / --r は案2(rich)での散らし配置(ステージ基準)。他の案では無視される -->
+  <div class="stage">
+    <!-- 1 -->
+    <section class="slide">
+      <p class="kicker" style="--x:8%;--y:12%">Chapter 1</p>
+      <h1 style="--x:7%;--y:26%;--w:fit-content"><span class="accent">アート</span>の定義を探る</h1>
+      <p class="dim" data-step style="--x:8%;--y:58%">その区別とは？</p>
+      <p class="ann" style="--x:60%;--y:90%">// CHAPTER 01 — DESIGN / ENTERTAINMENT / ART</p>
+    </section>
+
+    <!-- 1b: 導入の見出し -->
+    <section class="slide">
+      <p class="kicker" style="--x:8%;--y:12%">Overview</p>
+      <h2 style="--x:8%;--y:24%;--w:fit-content">デザイン・エンタメ・<span class="accent">アート</span>の違い</h2>
+      <p class="dim" data-step style="--x:8%;--y:56%;--w:1300px">どれも実は似たような意味を持つ言葉。<br />アートとは一体何なんだろう？といつも疑問に思います。</p>
+    </section>
+
+    <!-- 2b: 3つの観点(以降のスライドで比べる項目) -->
+    <section class="slide">
+      <p class="kicker" style="--x:8%;--y:10%">Viewpoints</p>
+      <h2 style="--x:8%;--y:19%;--w:fit-content">3つの観点</h2>
+      <ul class="facts viewpoints">
+        <li data-step class="vp1" style="--x:5%;--y:50%;--w:520px"><b>01</b><span>起点</span></li>
+        <li data-step class="vp2" style="--x:35%;--y:42%;--w:520px;--r:-1.5deg"><b>02</b><span>目的</span></li>
+        <li data-step class="vp3" style="--x:65%;--y:56%;--w:520px;--r:1.5deg"><b>03</b><span>評価</span></li>
+      </ul>
+    </section>
+
+    <!-- 2 (注: 文言は仮) -->
+    <section class="slide">
+      <p class="kicker" style="--x:8%;--y:10%">01 / Design</p>
+      <h2 style="--x:8%;--y:19%">デザイン</h2>
+      <ul class="facts">
+        <li data-step class="vp1" style="--x:8%;--y:46%;--w:560px"><b>起点</b><span>誰かの課題</span></li>
+        <li data-step class="vp2" style="--x:30%;--y:60%;--w:560px;--r:-2deg"><b>目的</b><span>解決する</span></li>
+        <li data-step class="vp3" style="--x:11%;--y:76%;--w:560px"><b>評価</b><span>役に立ったか</span></li>
+      </ul>
+    </section>
+
+    <!-- 3 -->
+    <section class="slide">
+      <p class="kicker" style="--x:8%;--y:10%">02 / Entertainment</p>
+      <h2 style="--x:8%;--y:19%">エンタメ</h2>
+      <ul class="facts">
+        <li data-step class="vp1" style="--x:10%;--y:46%;--w:620px"><b>起点</b><span>誰かを楽しませたい</span></li>
+        <li data-step class="vp2" style="--x:6%;--y:62%;--w:560px"><b>目的</b><span>喜んでもらう</span></li>
+        <li data-step class="vp3" style="--x:26%;--y:78%;--w:560px;--r:2deg"><b>評価</b><span>盛り上がったか</span></li>
+      </ul>
+    </section>
+
+    <!-- 4 -->
+    <section class="slide">
+      <p class="kicker" style="--x:8%;--y:10%">03 / Art</p>
+      <h2 class="accent" style="--x:8%;--y:19%">アート</h2>
+      <ul class="facts">
+        <li data-step class="vp1" style="--x:8%;--y:46%;--w:520px"><b>起点</b><span>作り手自身</span></li>
+        <li data-step class="vp2" style="--x:28%;--y:58%;--w:520px"><b>目的</b><span>形にする</span></li>
+        <li data-step class="vp3" style="--x:12%;--y:74%;--w:560px;--r:-2deg"><b>評価</b><span>…決まっていない</span></li>
+      </ul>
+    </section>
+
+    <!-- 6b: 3要素の比較表(スライド4〜6の内容を行ごとにまとめる) -->
+    <section class="slide cmp-slide">
+      <p class="kicker" style="--x:8%;--y:8%">Comparison</p>
+      <h2 style="--x:8%;--y:15%;--w:fit-content">体験設計から見た違い</h2>
+      <div class="cmp" style="--x:6%;--y:34%;--w:88%">
+        <div class="cmp-head">
+          <span></span><b>デザイン</b><b>エンタメ</b><b class="accent">アート</b>
+        </div>
+        <div class="cmp-row vp1" data-step><span class="cmp-label">起点</span><span>誰かの課題</span><span>誰かを楽しませたい</span><span>作り手自身</span></div>
+        <div class="cmp-row vp2" data-step><span class="cmp-label">目的</span><span>解決する</span><span>喜んでもらう</span><span>形にする</span></div>
+        <div class="cmp-row vp3" data-step><span class="cmp-label">評価</span><span>役に立ったか</span><span>盛り上がったか</span><span>…決まっていない</span></div>
+      </div>
+      <!-- 全行が出たあと、1行ずつ強調して一言を差し込む(ステップ4〜6)。順番は 評価 → 起点 → 目的(最後は 起点と目的 を同時に強調)。文言は仮 -->
+      <p class="cmp-note vp3" data-step style="--x:6%;--y:86%">何を作っても許される</p>
+      <p class="cmp-note vp1" data-step style="--x:6%;--y:86%">他者か自己か</p>
+      <p class="cmp-note vp2" data-step style="--x:6%;--y:86%">ここに境界をあやふやにする秘密がある</p>
+    </section>
+
+    <!-- 7b: 問いかけ -->
+    <section class="slide">
+      <p class="kicker" style="--x:8%;--y:14%">Question</p>
+      <h2 style="--x:8%;--y:30%;--w:fit-content">自己の目的が<br />「<span class="accent">人を楽しませること</span>」なら？</h2>
+    </section>
+
+    <!-- 7c, 7d: 動画(YouTube 埋め込み)。data-youtube に動画ID または URL を入れる(t= で開始秒)。未設定なら枠だけ表示。
+         通常のWebページを操作できる形で埋め込む場合は、data-youtube の代わりに class="video-frame interactive" data-embed="URL" を使う。
+         YouTube の再生にはインターネット接続が必要(オフラインでは枠のみ)。操作: P で再生/一時停止 -->
+    <section class="slide video-slide">
+      <p class="kicker" style="--x:8%;--y:9%">Video</p>
+      <div class="video-frame" data-youtube="https://youtu.be/khplMpm4ctc?t=15" style="--x:14%;--y:17%;--w:1320px">
+        <div class="video-ph"><b>VIDEO</b><span></span></div>
+      </div>
+    </section>
+
+    <section class="slide video-slide">
+      <p class="kicker" style="--x:8%;--y:9%">Video</p>
+      <div class="video-frame" data-youtube="https://youtu.be/TQlfAYY0IMg?t=26" style="--x:14%;--y:17%;--w:1320px">
+        <div class="video-ph"><b>VIDEO</b><span></span></div>
+      </div>
+    </section>
+
+    <!-- 5: ヒートマップ(制作中)。ステップごとに段階表示: 点 → 色が広がる → 混ざる → 流れる -->
+    <section class="slide heat-slide" data-clean>
+      <p class="kicker" style="--x:8%;--y:9%">04 / Heatmap</p>
+      <div class="heat" style="--x:33%;--y:14%">
+        <canvas data-sketch="heatmap"></canvas>
+        <div class="heat-dot" data-id="art"><i></i><span>アート</span></div>
+        <div class="heat-dot" data-id="design"><i></i><span>デザイン</span></div>
+        <div class="heat-dot" data-id="entertainment"><i></i><span>エンタメ</span></div>
+      </div>
+      <p class="heat-note" style="--x:6%;--y:34%;--w:520px">STEP 1 — 3つの点(位置は固定、わずかに揺れる)</p>
+      <p class="heat-note" data-step style="--x:6%;--y:46%;--w:520px">STEP 2 — それぞれの点から色が広がる</p>
+      <p class="heat-note" data-step style="--x:6%;--y:58%;--w:520px">STEP 3 — 違う色同士が混ざる</p>
+      <p class="heat-note" data-step style="--x:6%;--y:70%;--w:520px">STEP 4 — 全体の色の流れ(フォースフィールド)</p>
+    </section>
+
+    <!-- 6 -->
+    <section class="slide">
+      <p class="kicker" style="--x:8%;--y:10%">Summary</p>
+      <p style="--x:8%;--y:22%;--w:1100px">それぞれの語句の違いから、<br />なんとなく<span class="accent">「アート」</span>がつかめてきたのではないでしょうか？</p>
+      <h2 data-step style="--x:12%;--y:52%">ではまとめると…</h2>
+    </section>
+  </div>
+
+  <script type="module" src="/src/deck.js"></script>
+</body>
+</html>

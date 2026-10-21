@@ -1,0 +1,186 @@
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body.deck { background: #000; }
+
+/* 1920x1080 の固定ステージ。縮尺は deck.js が設定 */
+.stage {
+  position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px;
+  transform-origin: center center; overflow: hidden;
+  background:
+    radial-gradient(1200px 700px at 85% 10%, rgba(var(--accent-rgb), 0.14), transparent 60%),
+    radial-gradient(900px 600px at 5% 95%, rgba(242, 241, 238, 0.07), transparent 60%),
+    var(--bg);
+}
+body.light-mode .stage { background: var(--bg); }
+
+.slide {
+  position: absolute; inset: 0; padding: 120px 140px; display: flex; flex-direction: column; justify-content: center;
+  gap: 40px; opacity: 0; visibility: hidden; transform: translateX(80px);
+  transition: opacity 0.6s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s 0.8s;
+}
+.slide.active { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+.slide.past { transform: translateX(-80px); }
+
+/* ステップ表示 */
+[data-step] { opacity: 0; transform: translateY(36px); transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); }
+[data-step].on { opacity: 1; transform: none; }
+
+/* タイポグラフィ (投影前提: 大きく・太く・高コントラスト) */
+.kicker { font: 600 28px/1 var(--font-en); letter-spacing: 0.4em; color: var(--accent); text-transform: uppercase; }
+.slide h1 { font-size: 150px; font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; }
+.slide h2 { font-size: 116px; font-weight: 800; line-height: 1.2; letter-spacing: -0.01em; }
+.slide h3 { font-size: 64px; font-weight: 700; line-height: 1.3; }
+.slide p { font-size: 48px; line-height: 1.7; font-weight: 500; }
+.dim { color: var(--dim); }
+.accent { color: var(--accent); }
+.en { font-family: var(--font-en); }
+
+/* 比較リスト */
+.facts { list-style: none; display: flex; flex-direction: column; gap: 28px; margin-top: 20px; }
+.facts li { display: flex; align-items: baseline; gap: 48px; border-top: 2px solid var(--line); padding-top: 28px; }
+.facts li b { width: 210px; flex: none; font: 600 30px/1 var(--font-en); letter-spacing: 0.2em; color: var(--accent); }
+.facts li span { font-size: 60px; font-weight: 700; line-height: 1.3; }
+
+/* ベン図 */
+.venn { position: relative; height: 640px; }
+.venn .c {
+  position: absolute; width: 400px; height: 400px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font: 700 26px/1 var(--font-en); letter-spacing: 0.1em; mix-blend-mode: screen;
+}
+.venn .c1 { left: 400px; top: 0; border: 3px solid #f2f1ee; background: rgba(242, 241, 238, 0.12); }
+.venn .c2 { left: 740px; top: 0; border: 3px solid #f2f1ee; background: rgba(242, 241, 238, 0.12); }
+.venn .c3 { left: 570px; top: 220px; border: 3px solid var(--accent); background: rgba(var(--accent-rgb), 0.22); }
+.venn .c1 span { transform: translate(-60px, -50px); }
+.venn .c2 span { transform: translate(60px, -50px); }
+.venn .c3 span { transform: translateY(70px); }
+
+/* 作品スライド */
+.work { flex-direction: row; align-items: center; gap: 80px; }
+.work .media {
+  flex: none; width: 1000px; height: 562px; border: 2px solid var(--line); position: relative; overflow: hidden;
+  background: repeating-linear-gradient(135deg, rgba(242, 241, 238, 0.05) 0 24px, transparent 24px 48px);
+  display: flex; align-items: center; justify-content: center;
+  font: 600 30px/1 var(--font-en); letter-spacing: 0.3em; color: var(--dim);
+}
+.work .media img, .work .media video, .work .media canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.work .meta { display: flex; flex-direction: column; gap: 28px; }
+.work .meta h2 { font-size: 80px; }
+.work .meta .credit { font: 500 30px/1.6 var(--font-en); letter-spacing: 0.1em; color: var(--dim); }
+.work .meta p { font-size: 40px; line-height: 1.7; }
+.tag { align-self: flex-start; padding: 10px 22px; border: 2px solid var(--accent); border-radius: 999px; font: 600 26px/1 var(--font-en); letter-spacing: 0.15em; color: var(--accent); }
+
+.exit-hint { margin-top: 40px; font: 600 32px/1 var(--font-en); letter-spacing: 0.25em; color: var(--accent); }
+
+/* HUD (ステージの外側) */
+.deck-hud {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 100; padding: 16px 28px;
+  display: grid; grid-template-columns: 1fr 2fr 1fr; align-items: center;
+  font: 600 13px/1 var(--font-en); letter-spacing: 0.25em; color: var(--dim); pointer-events: none;
+}
+.deck-hud .hud-r { text-align: right; color: var(--fg); font-variant-numeric: tabular-nums; }
+.bar { height: 2px; background: var(--line); }
+.bar i { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform 0.5s ease; }
+.keys {
+  position: absolute; left: 50%; bottom: 50px; transform: translateX(-50%); display: flex; gap: 22px;
+  white-space: nowrap; letter-spacing: 0.08em; transition: opacity 0.8s; font-weight: 500;
+}
+.keys.hide { opacity: 0; }
+kbd {
+  display: inline-block; min-width: 1.8em; padding: 4px 7px; margin-right: 4px; text-align: center;
+  border: 1px solid var(--dim); border-radius: 4px; font: inherit; color: var(--fg);
+}
+
+.help {
+  position: fixed; inset: 0; z-index: 150; display: flex; align-items: center; justify-content: center;
+  background: rgba(7, 7, 10, 0.92); opacity: 0; visibility: hidden; transition: 0.3s; font-size: 18px;
+}
+.help.show { opacity: 1; visibility: visible; }
+.help h3 { font-size: 28px; margin-bottom: 28px; letter-spacing: 0.1em; }
+.help dl { display: grid; grid-template-columns: auto auto; gap: 16px 48px; }
+.help dd { color: var(--dim); }
+.help p { margin-top: 28px; color: var(--dim); font-size: 15px; }
+
+/* ヒートマップ(chapter1) */
+.heat { position: relative; width: 940px; height: 700px; flex: none; }
+.heat canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.heat-dot { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 2; }
+.heat-dot i { position: absolute; left: -15px; top: -15px; width: 30px; height: 30px; border: 2px solid #fff; border-radius: 50%; box-shadow: 0 0 20px rgba(255, 255, 255, 0.55); }
+.heat-dot i::after { content: ''; position: absolute; inset: 8px; border-radius: 50%; background: #fff; }
+.heat-dot span { position: absolute; left: 0; bottom: 34px; transform: translateX(-50%); white-space: nowrap; font-size: 44px; font-weight: 800; letter-spacing: 0.08em; }
+.heat-slide .heat { position: absolute; right: 140px; top: 120px; }
+.heat-slide .kicker { position: absolute; left: 140px; top: 110px; }
+.heat-slide .heat-note { position: absolute; left: 140px; top: 360px; width: 560px; font-size: 28px; line-height: 1.6; color: var(--dim); }
+.heat-slide .heat-note:nth-of-type(2) { top: 340px; } .heat-slide .heat-note:nth-of-type(3) { top: 470px; }
+.heat-slide .heat-note:nth-of-type(4) { top: 600px; } .heat-slide .heat-note:nth-of-type(5) { top: 730px; }
+/* このスライドでは背景の写真・幾何学を隠し、ヒートマップだけを見せる */
+.rich-subjects, .rich-deco, .geo { transition: opacity 0.8s ease; }
+body.is-clean .rich-subjects, body.is-clean .rich-deco, body.is-clean .geo { opacity: 0 !important; }
+
+/* 観点の項目(起点・目的・評価): 色の四角形を後ろに重ねる。スライド3〜6で共通 */
+.facts .vp1 { --vp: #99ccff; } .facts .vp2 { --vp: #6699ff; } .facts .vp3 { --vp: #ffffff; }
+.facts li.vp1, .facts li.vp2, .facts li.vp3 { position: relative; isolation: isolate; padding: 24px 32px 28px; background: none; border-top: 0; }
+.facts li.vp1 b, .facts li.vp2 b, .facts li.vp3 b { color: var(--vp); }
+/* 線ではなく四角形を重ねる: 色の四角(奥・ずらす)の上に、黒の四角(手前)を重ねる */
+.facts li.vp1::before, .facts li.vp2::before, .facts li.vp3::before { content: ''; position: absolute; inset: 0; transform: translate(20px, 20px); background: var(--vp); z-index: -2; }
+.facts li.vp1::after, .facts li.vp2::after, .facts li.vp3::after { content: ''; position: absolute; inset: 0; background: #000; z-index: -1; }
+
+/* 3つの観点(スライド3): 横並び */
+.viewpoints { flex-direction: row; gap: 40px; margin-top: 20px; }
+.viewpoints li { flex: 1; flex-direction: column; align-items: flex-start; gap: 16px; }
+.viewpoints li b { width: auto; font-size: 40px; }
+.viewpoints li span { font-size: 110px; font-weight: 800; line-height: 1.1; letter-spacing: 0.06em; }
+
+/* 比較表(3要素 × 3観点) */
+.cmp { display: flex; flex-direction: column; gap: 18px; --cols: 190px 1fr 1fr 1fr; width: 1640px; }
+.cmp-head, .cmp-row { display: grid; grid-template-columns: var(--cols); gap: 18px; align-items: stretch; }
+.cmp-head b { font-size: 60px; font-weight: 800; padding: 6px 28px 10px; background: #000; }
+.cmp-row span { position: relative; padding: 30px 28px; font-size: 44px; font-weight: 700; line-height: 1.35; background: #000; display: flex; align-items: center; }
+/* ラベル列は観点の色の四角(スライド3〜6と同じ配色) */
+.cmp-row .cmp-label { background: var(--vp); color: #000; font: 800 44px/1 var(--font-en); letter-spacing: 0.1em; justify-content: center; padding: 30px 8px; }
+.cmp-row.vp1 { --vp: #99ccff; } .cmp-row.vp2 { --vp: #6699ff; } .cmp-row.vp3 { --vp: #ffffff; }
+
+/* 比較表: 全行が出たあと(ステップ4〜6)、1行ずつ強調して一言を差し込む。順番は 評価(vp3) → 起点(vp1) → 目的(vp2)。ステップ6は 起点と目的 の2行を同時に強調する */
+.cmp-row { transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.5s ease; }
+.cmp-row span { transition: box-shadow 0.5s ease, background-color 0.5s ease; }
+.cmp-slide[data-step="4"] .cmp-row:not(.vp3),
+.cmp-slide[data-step="5"] .cmp-row:not(.vp1),
+.cmp-slide[data-step="6"] .cmp-row.vp3 { opacity: 0.28 !important; }
+.cmp-slide[data-step="4"] .cmp-row.vp3 span:not(.cmp-label),
+.cmp-slide[data-step="5"] .cmp-row.vp1 span:not(.cmp-label),
+.cmp-slide[data-step="6"] .cmp-row.vp1 span:not(.cmp-label),
+.cmp-slide[data-step="6"] .cmp-row.vp2 span:not(.cmp-label) { background: color-mix(in srgb, var(--vp) 24%, #000); box-shadow: inset 0 0 0 3px var(--vp), 0 0 36px -6px var(--vp); }
+.cmp-slide[data-step="4"] .cmp-row.vp3, .cmp-slide[data-step="5"] .cmp-row.vp1, .cmp-slide[data-step="6"] .cmp-row.vp1, .cmp-slide[data-step="6"] .cmp-row.vp2 { transform: scale(1.03); transform-origin: left center; }
+/* 一言: 現在のステップのものだけを見せる(前のものは消える)。DOM の順は 評価 → 起点 → 目的 */
+.cmp-note { position: absolute; left: 140px; top: 905px; margin: 0; padding: 14px 32px 18px; font-size: 52px; font-weight: 800; line-height: 1.3; color: #fff; isolation: isolate; width: fit-content; background: none; }
+.cmp-note::before { content: ''; position: absolute; inset: 0; transform: translate(14px, 14px); background: var(--vp); z-index: -2; }
+.cmp-note::after { content: ''; position: absolute; inset: 0; background: #000; z-index: -1; }
+.cmp-note.vp1 { --vp: #99ccff; } .cmp-note.vp2 { --vp: #6699ff; } .cmp-note.vp3 { --vp: #ffffff; }
+.cmp-slide[data-step="5"] .cmp-note.vp3, .cmp-slide[data-step="6"] .cmp-note.vp3, .cmp-slide[data-step="6"] .cmp-note.vp1 { opacity: 0 !important; }
+/* classic / 案1 では表を少し詰めて、下に一言の余白をとる */
+.cmp-slide .cmp-row span { padding-top: 20px; padding-bottom: 20px; }
+.cmp-slide .cmp-head b { padding-top: 2px; padding-bottom: 6px; }
+
+/* classic / 案1: 見出しを少し小さくし、表と一言が収まるようにする */
+.cmp-slide { gap: 24px; padding-top: 70px; padding-bottom: 150px; }
+.cmp-slide h2 { font-size: 88px; }
+.cmp-slide .kicker { font-size: 24px; }
+.cmp-slide .cmp-row span { font-size: 40px; }
+
+/* 動画スライド */
+.video-frame { position: relative; width: 1320px; aspect-ratio: 16 / 9; background: none; isolation: isolate; }
+/* 色の四角(奥・ずらす)の上に黒の四角(手前)を重ねる */
+.video-frame::before { content: ''; position: absolute; inset: 0; transform: translate(22px, 22px); background: var(--accent); z-index: -2; }
+.video-frame::after { content: ''; position: absolute; inset: 0; background: #000; z-index: -1; }
+.video-frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #000; }
+.video-ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; border: 2px dashed var(--line); }
+.video-ph b { font: 800 90px/1 var(--font-en); letter-spacing: 0.3em; color: var(--dim); }
+.video-ph span { font-size: 28px; color: var(--dim); }
+.video-frame.ready .video-ph { display: none; }
+.video-slide .kicker { position: absolute; left: 140px; top: 110px; }
+.video-slide .video-frame { position: absolute; left: 270px; top: 190px; }
+
+/* YouTube の iframe: クリックはステージ(スライド送り)に渡し、キー操作を奪わない */
+.video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; pointer-events: none; background: #000; }
+
+/* 埋め込みWebページは操作できるようにする */
+.video-frame.interactive iframe { pointer-events: auto; }

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>メディアアートとは？</title>
+  <link rel="stylesheet" href="/src/styles/base.css" />
+  <link rel="stylesheet" href="/src/styles/index.css" />
+  <link rel="stylesheet" href="/src/styles/rich.css" />
+</head>
+<body class="index">
+  <canvas id="bg"></canvas>
+  <div class="grain"></div>
+  <div class="cursor"></div>
+
+  <header class="hud">
+    <span>MEDIA ART</span>
+    <span class="hud-sec"></span>
+  </header>
+  <nav class="dots" aria-label="セクション"></nav>
+
+  <!--
+    --x / --y / --w / --r は案2(rich)での散らし配置用(%はセクション基準)。
+    classic / 案1 では無視され、通常のフローで表示される。.ann は案2でのみ表示する装飾テキスト。
+  -->
+  <main>
+    <!-- 1. タイトル -->
+    <section id="s1" class="sec hero" data-shape="0" data-scene="0">
+      <p class="eyebrow" data-reveal style="--x:7%;--y:12%">LIGHTNING TALK</p>
+      <div class="hero-title" style="--x:6%;--y:34%">
+        <h1 class="split big">メディア<mark>アート</mark>とは？</h1>
+        <p class="presented" data-reveal>Presented by <mark>Daachan</mark></p>
+      </div>
+      <p class="ann" data-reveal style="--x:7%;--y:62%;--w:260px">// BLOB TRACKING ENABLED<br />// 30 MIN SESSION</p>
+      <p class="scroll-hint" data-reveal style="--x:7%;--y:88%">SCROLL <span>↓</span></p>
+    </section>
+
+    <!-- 2. アートとは何か (3つの停止位置: 定義 → つまり → 完。それぞれ1画面に収める) -->
+    <section id="s2" class="sec define flow" data-shape="1" data-scene="1">
+      <p class="label" data-reveal><b>01</b><i></i><span>アートとは何か</span></p>
+      <div class="scrub-block">
+        <p class="scrub">アートとは、人が物、音、身体、言葉、空間などを意図的に構成・提示し、知覚、感情、想像、解釈または思考を促す文化的な活動である、とひとまず考えると理解しやすくなります。</p>
+        <p class="scrub dim">ただし、これは特定の研究者が示した定義ではありません。美学や芸術哲学の議論を一般向けに整理した暫定的な定義です。</p>
+        <p class="scrub dim">研究ではアートをどのように定義するかについてさまざまな考え方が提案されており、現在も一つの見解に完全にはまとまっていません。</p>
+        <p class="source" data-reveal>参照：museumstudies.jp / what-is-art-definition</p>
+      </div>
+    </section>
+
+    <section id="s2b" class="sec flow" data-shape="1" data-scene="1">
+      <h2 class="split huge accent-last">つまり、<br />「<mark>アート</mark>」が何かは<br />分かっていない。</h2>
+    </section>
+
+    <section id="s2c" class="sec flow kan-sec" data-shape="1" data-scene="1" data-plain>
+      <p class="kan" data-reveal>~ 完 ~</p>
+      <p class="kan-note" data-reveal>...だと面白くないので</p>
+    </section>
+
+    <!-- 3a. 前置き: 「ここからは偏見になります」だけで1画面 -->
+    <section id="s2d" class="sec" data-shape="2" data-scene="2">
+      <h2 class="split big" style="--x:8%;--y:40%">※ここからは偏見になります</h2>
+    </section>
+
+    <!-- 3. 偏見 → chapter1 -->
+    <section id="s3" class="sec" data-shape="2" data-scene="2">
+      <p class="lead" data-reveal style="--x:7%;--y:24%;--w:400px">しばしば議論されることとして...</p>
+      <h2 class="split big" style="--x:12%;--y:38%"><b>02</b><i></i>「デザイン」「エンタメ」<br />「<mark>アート</mark>」の区別とは？</h2>
+      <a class="cta" href="chapter1.html" data-reveal style="--x:7%;--y:70%"><span>Chapter 1</span><i>→</i></a>
+      <p class="cta-note" data-reveal style="--x:7%;--y:81%">Enter キーでも移動できます</p>
+    </section>
+
+    <!-- 4. まとめ -->
+    <section id="s4" class="sec flow" data-shape="3" data-scene="3">
+      <p class="label" data-reveal style="--x:52%;--y:10%"><b>03</b><i></i><span>つまり</span></p>
+      <p class="lead" data-reveal style="--x:52%;--y:17%;--w:360px">それぞれの語句の違いから、なんとなく「アート」がつかめてきたのではないでしょうか？</p>
+      <h2 class="split big" style="--x:6%;--y:34%">「<mark>アート</mark>」は<br />「自分の感情を<br />形にするもの」</h2>
+      <p class="body" data-reveal style="--x:9%;--y:76%;--w:520px">「社会に疑問を投げかけたい」「自分の内面を出したい」ではなく、<br />「自分が面白いと思うものを作る」「カッコイイものを作りたい」「誰かに楽しんでほしい」<br />そんなきっかけで十分です。</p>
+    </section>
+
+    <!-- 5. メディアアートの世界 -->
+    <section id="s5" class="sec media" data-shape="4" data-scene="4">
+      <p class="label" data-reveal style="--x:7%;--y:4%"><b>04</b><i></i><span>メディアアートの世界</span></p>
+      <h2 class="split big" style="--x:7%;--y:19%">メディアアートは、<br />そんなアートの中でも<br />「<mark>メディア</mark>」を利用します。</h2>
+      <p class="body" data-reveal style="--x:7%;--y:53%;--w:860px">ここでの「メディア」とは、主にPCやスマホ、センサ…などなどテクノロジーのこと。<br />どのような作品があるのでしょうか？</p>
+      <div class="marquee" aria-hidden="true" style="--y:72%">
+        <div class="row r1"><span>PC — SMARTPHONE — SENSOR — CAMERA — PROJECTOR — SPEAKER — </span><span>PC — SMARTPHONE — SENSOR — CAMERA — PROJECTOR — SPEAKER — </span></div>
+        <div class="row r2"><span>PROGRAM — SIGNAL — LIGHT — SOUND — MOTION — DATA — NETWORK — </span><span>PROGRAM — SIGNAL — LIGHT — SOUND — MOTION — DATA — NETWORK — </span></div>
+      </div>
+    </section>
+
+    <!-- 6. 作品に触れる → chapter2 (chapter2 から戻ると次の「作り方」へ) -->
+    <section id="s6" class="sec" data-shape="5" data-scene="5">
+      <p class="label" data-reveal style="--x:9%;--y:15%"><b>05</b><i></i><span>作品に触れる</span></p>
+      <h2 class="split huge" style="--x:9%;--y:29%">色々な作品に触れて<br /><mark>アイデア</mark>を蓄えよう！</h2>
+      <a class="cta" href="chapter2.html" data-reveal style="--x:9%;--y:66%"><span>Chapter 2</span><i>→</i></a>
+      <p class="cta-note" data-reveal style="--x:9%;--y:77%">Enter キーでも移動できます</p>
+      <p class="ann" data-reveal style="--x:60%;--y:80%;--w:280px">// INPUT → OUTPUT<br />// STORE IDEAS</p>
+    </section>
+
+    <!-- 7. 作り方 -->
+    <section id="s7" class="sec steps" data-shape="6" data-scene="6">
+      <p class="label" data-reveal style="--x:8%;--y:9%"><b>06</b><i></i><span>メディアアートの作り方</span></p>
+      <ol>
+        <li data-reveal style="--x:8%;--y:22%;--w:44%"><b>1</b><span>自分のやりたいことを<mark>言語化</mark>しよう！</span></li>
+        <li data-reveal style="--x:36%;--y:44%;--w:42%"><b>2</b><span>やりたいことに対する<mark>手段</mark>を選ぼう！</span></li>
+        <li data-reveal style="--x:12%;--y:66%;--w:40%"><b>3</b><span><mark>作って壊して</mark>みよう！</span></li>
+      </ol>
+      <p class="thanks split" style="--x:60%;--y:74%">THANK YOU</p>
+      <p class="img-credit" style="--x:60%;--y:90%">Images: NASA</p>
+    </section>
+  </main>
+
+  <script type="module" src="/src/index.js"></script>
+</body>
+</html>

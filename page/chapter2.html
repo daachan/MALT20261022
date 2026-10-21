@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 2 — メディアアートの作品</title>
+  <link rel="stylesheet" href="/src/styles/base.css" />
+  <link rel="stylesheet" href="/src/styles/slides.css" />
+  <link rel="stylesheet" href="/src/styles/rich.css" />
+</head>
+<body class="deck" data-chapter="CHAPTER 2" data-scene-offset="3" data-prev="index.html#s6" data-next="index.html#s7">
+  <div class="grain"></div>
+
+  <div class="stage">
+    <!-- 1 -->
+    <section class="slide">
+      <p class="kicker" style="--x:8%;--y:12%">Chapter 2</p>
+      <h1 style="--x:7%;--y:26%;--w:1200px">メディアアートの<br />作品に触れる</h1>
+      <p class="dim" data-step style="--x:8%;--y:74%;--w:1000px">PC・スマホ・センサ…IT機器が生み出す表現を見てみよう</p>
+    </section>
+
+    <!-- 2: 作品スライドのテンプレート。画像/動画は public/ に置いて <img>/<video> に差し替える -->
+    <section class="slide work">
+      <div class="media" data-step style="--x:6%;--y:24%;--w:780px;--r:-3deg">IMAGE / VIDEO</div>
+      <div class="meta">
+        <span class="tag" data-step style="--x:50%;--y:58%;--w:auto">切り口（仮）</span>
+        <h2 data-step style="--x:46%;--y:63%;--w:760px">作品名（仮）</h2>
+        <p class="credit" data-step style="--x:50%;--y:78%">作者名 ／ 20XX</p>
+        <p data-step style="--x:48%;--y:85%;--w:640px">作品の一言解説がここに入ります。</p>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="slide work">
+      <div class="media" data-step style="--x:5%;--y:16%;--w:700px;--r:2deg">IMAGE / VIDEO</div>
+      <div class="meta">
+        <span class="tag" data-step style="--x:8%;--y:68%;--w:auto">切り口（仮）</span>
+        <h2 data-step style="--x:8%;--y:75%;--w:760px">作品名（仮）</h2>
+        <p class="credit" data-step style="--x:42%;--y:72%">作者名 ／ 20XX</p>
+        <p data-step style="--x:40%;--y:80%;--w:560px">作品の一言解説がここに入ります。</p>
+      </div>
+    </section>
+
+    <!-- 4: インタラクティブ表現を埋め込めるスライド (canvas + data-sketch) -->
+    <section class="slide work">
+      <div class="media" style="--x:6%;--y:20%;--w:820px;--r:-2deg"><canvas width="1000" height="562" data-sketch="trail"></canvas></div>
+      <div class="meta">
+        <span class="tag" style="--x:8%;--y:72%;--w:auto">DEMO</span>
+        <h2 style="--x:8%;--y:79%;--w:500px">触れる表現</h2>
+        <p class="dim" data-step style="--x:38%;--y:78%;--w:700px">マウスを動かしてみてください。<br />スライドの中でも、リアルタイムに描画できます。</p>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="slide">
+      <p class="kicker" style="--x:8%;--y:14%">Next</p>
+      <h2 class="accent" style="--x:8%;--y:28%">色々な作品に触れて<br />アイデアを蓄えよう！</h2>
+      <p class="exit-hint" data-step style="--x:8%;--y:78%">→ NEXT: INDEX に戻る</p>
+    </section>
+  </div>
+
+  <script type="module" src="/src/deck.js"></script>
+</body>
+</html>

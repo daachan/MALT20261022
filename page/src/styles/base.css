@@ -1,0 +1,78 @@
+:root {
+  --bg: #07070a;
+  --fg: #f2f1ee;
+  --dim: rgba(242, 241, 238, 0.55);
+  --line: rgba(242, 241, 238, 0.16);
+  /* アクセント: 水色基調 (空・水の淡いブルー)。RGB値は rgba() 用 */
+  --accent: #8ec5ff;
+  --accent-rgb: 142, 197, 255;
+  --font: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic', system-ui, sans-serif;
+  --font-en: 'Helvetica Neue', 'Arial', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--bg); color: var(--fg); }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+/* フィルムグレイン */
+.grain {
+  position: fixed; inset: -50%; z-index: 90; pointer-events: none; opacity: 0.07;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation: grain 1.2s steps(6) infinite;
+}
+body.light-mode .grain { display: none; }
+@keyframes grain {
+  0% { transform: translate(0, 0); } 20% { transform: translate(-4%, 3%); }
+  40% { transform: translate(3%, -5%); } 60% { transform: translate(-2%, 6%); }
+  80% { transform: translate(5%, 2%); } 100% { transform: translate(0, 0); }
+}
+
+/* ページ遷移ワイプ */
+.wipe {
+  position: fixed; inset: 0; z-index: 200; background: var(--accent);
+  transform: scaleY(1); transform-origin: top; pointer-events: none;
+}
+
+/* タイマー */
+.timer {
+  position: fixed; top: 20px; right: 28px; z-index: 100;
+  font: 500 14px/1 var(--font-en); letter-spacing: 0.12em; color: var(--dim);
+  opacity: 0; transition: opacity 0.3s; font-variant-numeric: tabular-nums;
+}
+.timer.show { opacity: 1; }
+
+.toast {
+  position: fixed; left: 50%; bottom: 72px; z-index: 110; transform: translate(-50%, 12px);
+  padding: 10px 18px; border: 1px solid var(--line); background: rgba(7, 7, 10, 0.85);
+  font-size: 14px; letter-spacing: 0.06em; opacity: 0; transition: 0.3s; pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- 案1: 幾何学レイヤー ---------- */
+.geo {
+  position: fixed; inset: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none; overflow: visible;
+}
+.stage > .geo { position: absolute; z-index: 0; }
+.geo * { fill: none; stroke: #f2f1ee; stroke-width: 1; vector-effect: non-scaling-stroke; }
+.geo .ring { stroke-opacity: 0.55; }
+.geo .ring.thin { stroke-opacity: 0.3; }
+.geo .ticks { stroke-opacity: 0.45; stroke-dasharray: 1.5 17; stroke-width: 7; }
+.geo .dots { stroke-opacity: 0.5; stroke-dasharray: 1 9; }
+.geo .sector { fill: url(#geo-hatch); stroke-opacity: 0.6; }
+.geo .sector, .geo pattern line { stroke-opacity: 0.55; }
+.geo .rays line { stroke-opacity: 0.6; }
+.geo .axis { stroke-opacity: 0.4; }
+.geo .axis.dashed { stroke-dasharray: 3 7; stroke-opacity: 0.55; }
+.geo .marks line { stroke-opacity: 0.5; }
+.geo .coc * { stroke-opacity: 0.85; }
+.geo .coc .c1 { stroke: var(--accent); }
+.geo .lab { fill: #f2f1ee; stroke: none; font: 500 11px var(--font-en); letter-spacing: 0.2em; opacity: 0.6; }
+body.light-mode .geo .ticks, body.light-mode .geo .dots { display: none; }
