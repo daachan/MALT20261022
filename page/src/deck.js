@@ -22,7 +22,26 @@ const H = 1080;
 
 const stage = document.querySelector('.stage');
 const slides = [...document.querySelectorAll('.slide')];
-const stepsOf = slides.map((s) => [...s.querySelectorAll('[data-step]')]);
+/* ステップのグループ化: data-step="" (値なし)は1要素ごとに1ステップ。data-step="2" のように数字を付けると、
+   同じ数字の要素は同じステップでまとめて現れる(スライド内のすべてに数字を付けた場合は、数字の小さい順に出る) */
+const groupSteps = (slide) => {
+  const groups = [];
+  const byKey = new Map();
+  slide.querySelectorAll('[data-step]').forEach((el) => {
+    const key = el.dataset.step;
+    if (key !== '' && byKey.has(key)) { byKey.get(key).push(el); return; }
+    const g = [el];
+    groups.push(g);
+    if (key !== '') byKey.set(key, g);
+  });
+  // すべて数字が付いているスライドは、数字の小さい順に並べる(DOM の順に依らない)
+  const keys = groups.map((g) => g[0].dataset.step);
+  if (keys.length && keys.every((k) => k !== '' && !Number.isNaN(Number(k)))) {
+    groups.sort((a, b) => Number(a[0].dataset.step) - Number(b[0].dataset.step));
+  }
+  return groups;
+};
+const stepsOf = slides.map(groupSteps);
 const prevUrl = document.body.dataset.prev;
 const nextUrl = document.body.dataset.next;
 
@@ -89,7 +108,7 @@ function render() {
     el.classList.toggle('active', k === i);
     el.classList.toggle('past', k < i);
   });
-  stepsOf[i].forEach((el, k) => el.classList.toggle('on', k < s));
+  stepsOf[i].forEach((grp, k) => grp.forEach((el) => el.classList.toggle('on', k < s)));
   // ステップの進行を他の部品(ヒートマップなど)へ通知する
   slides[i].dataset.step = String(s);
   document.body.classList.toggle('is-clean', slides[i].hasAttribute('data-clean'));
@@ -153,7 +172,7 @@ addEventListener('click', (e) => {
 let stopSketches = [];
 function syncSketches() {
   stopSketches.forEach((f) => f());
-  stopSketches = [...slides[i].querySelectorAll('canvas[data-sketch]')].map((c) => startSketch(c));
+  stopSketches = [...slides[i].querySelectorAll('canvas[data-sketch], svg[data-sketch]')].map((c) => startSketch(c));
 }
 /* ---------- 動画 ----------
  * ・.video-frame[data-youtube="動画IDまたはURL"] : YouTube 埋め込み(インターネット接続が必要)
@@ -184,7 +203,7 @@ function mountYouTube(frame) {
   const start = ytStart(frame.dataset.youtube);
   f.src = isEmbed
     ? frame.dataset.embed
-    : `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&iv_load_policy=3${start ? `&start=${start}` : ''}`;
+    : `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&iv_load_policy=3${start ? `&start=${start}` : ''}${frame.hasAttribute('data-mute') ? '&mute=1' : ''}`;
   f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
   f.title = 'YouTube video';
   f.addEventListener('load', () => frame.classList.add('ready'));
@@ -202,13 +221,26 @@ slides.forEach((sl) => sl.querySelectorAll('video').forEach((v) => {
 }));
 function syncVideos() {
   slides.forEach((sl, k) => {
-    sl.querySelectorAll('.video-frame[data-youtube], .video-frame[data-embed]').forEach((fr) => (k === i ? mountYouTube(fr) : unmountYouTube(fr)));
+    if (k !== i) sl.querySelectorAll('.pin').forEach((p) => { p.classList.remove('open'); unmountYouTube(p.querySelector('.pin-pop')); });
+    // data-step の要素の中にある枠は、その要素が表示されてから読み込む(見えない間に音が出ないように)
+    sl.querySelectorAll('.video-frame[data-youtube], .video-frame[data-embed]').forEach((fr) => {
+      const gate = fr.closest('[data-step]');
+      const visible = k === i && (!gate || gate.classList.contains('on'));
+      if (visible) mountYouTube(fr); else unmountYouTube(fr);
+    });
     sl.querySelectorAll('video').forEach((v) => {
       if (k === i) v.play().catch(() => {});
       else { v.pause(); try { v.currentTime = 0; } catch { /* noop */ } }
     });
   });
 }
+/* ヒートマップのピン: マウスを合わせている間だけ、ピンの上に YouTube を表示して再生する */
+slides.forEach((sl) => sl.querySelectorAll('.pin').forEach((pin) => {
+  const pop = pin.querySelector('.pin-pop');
+  pin.addEventListener('mouseenter', () => { pin.classList.add('open'); mountYouTube(pop); });
+  pin.addEventListener('mouseleave', () => { pin.classList.remove('open'); unmountYouTube(pop); });
+  pin.addEventListener('click', (e) => e.stopPropagation()); // ピンのクリックでスライドが進まないように
+}));
 /* 埋め込みページ内をクリックするとキー操作が iframe に移るため、マウスが枠から出たらスライドへ戻す */
 slides.forEach((sl) => sl.querySelectorAll('.video-frame[data-embed]').forEach((fr) => {
   fr.addEventListener('mouseleave', () => { fr.querySelector('iframe')?.blur(); window.focus(); });
@@ -228,6 +260,7 @@ function togglePlayback() {
   if (v) { if (v.paused) v.play(); else v.pause(); }
 }
 document.addEventListener('slidechange', syncVideos);
+document.addEventListener('stepchange', syncVideos);
 document.addEventListener('slidechange', syncSketches);
 document.addEventListener('designchange', () => {
   rich.setScene(i);

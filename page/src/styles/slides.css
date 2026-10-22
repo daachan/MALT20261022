@@ -184,3 +184,98 @@ body.is-clean .rich-subjects, body.is-clean .rich-deco, body.is-clean .geo { opa
 
 /* 埋め込みWebページは操作できるようにする */
 .video-frame.interactive iframe { pointer-events: auto; }
+
+/* 出典(引用)表示: 右下に小さく */
+.video-slide .cite { position: absolute; right: 70px; bottom: 34px; left: auto; top: auto; margin: 0; font: 500 22px/1.4 var(--font-en); letter-spacing: 0.06em; color: var(--dim); text-align: right; }
+
+/* ヒートマップのピン: 刺さるアニメーション + ホバーで動画のポップアップ */
+.heat-pins { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.heat-pins:not(.on) .pin { pointer-events: none; }
+.pin { position: absolute; width: 0; height: 0; pointer-events: auto; }
+.pin::before { content: ''; position: absolute; left: -34px; top: -78px; width: 68px; height: 84px; } /* ホバーの当たり判定を広げる */
+.pin svg { position: absolute; left: -22px; bottom: 0; width: 44px; height: 62px; fill: #fff; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6)) drop-shadow(0 6px 6px rgba(0, 0, 0, 0.5)); transform-origin: 50% 100%; }
+.pin svg circle { fill: #000; }
+.heat-pins.on .pin svg { animation: pinDrop 0.7s cubic-bezier(0.3, 1.5, 0.5, 1) both; }
+.heat-pins.on .pin:nth-child(2) svg { animation-delay: 0.18s; }
+@keyframes pinDrop { from { transform: translateY(-90px) scale(1.25); opacity: 0; } 60% { opacity: 1; } to { transform: none; opacity: 1; } }
+.pin:hover svg { fill: var(--accent); }
+.pin-pop { position: absolute; left: 0; bottom: 84px; width: 560px; height: 315px; transform: translateX(-50%) translateY(10px); isolation: isolate; opacity: 0; visibility: hidden; transition: opacity 0.25s ease, transform 0.3s ease; pointer-events: none; }
+.pin-pop::before { content: ''; position: absolute; inset: 0; transform: translate(12px, 12px); background: var(--accent); z-index: -2; }
+.pin-pop::after { content: ''; position: absolute; inset: 0; background: #000; z-index: -1; }
+.pin.open .pin-pop { opacity: 1; visibility: visible; transform: translateX(-50%); }
+.pin-pop iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; pointer-events: none; background: #000; }
+.pin-pop .video-ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+.pin-pop .video-ph b { font-size: 40px; }
+.pin-pop .video-ph span { font-size: 18px; padding: 0 20px; text-align: center; }
+.pin-pop.ready .video-ph { display: none; }
+
+.heat-layer { pointer-events: none; }
+
+/* ヒートマップのみ(中央)のスライド: 常に最終状態。ピンは最初から刺さっている */
+.heat-static .heat { position: absolute; left: 490px; top: 190px; right: auto; width: 940px; height: 700px; }
+.heat-static .heat-pins { opacity: 1; transform: none; }
+.heat-static .pin svg { animation: none !important; }
+
+/* 境界線の blob: 線のみ・塗りなし。1本ずつ線が描かれて重なる。ラベルは線と一緒に現れる
+   重ね順: ヒートマップの色(canvas) < blob の線(z1) < 点とラベル・blob のラベル(z5) */
+.heat-dot { z-index: 5; }
+.blob-set { position: absolute; left: 0; top: 0; width: 940px; height: 700px; pointer-events: none; z-index: auto; }
+/* data-step の既定(opacity/transform)は重ね順を壊すため、ここでは無効にして子要素側で出現させる */
+.blob-set[data-step], .blob-set[data-step].on { opacity: 1; transform: none; }
+.blobs { position: absolute; left: 0; top: 0; width: 940px; height: 700px; overflow: visible; z-index: 1; }
+/* HUD 風: 細い実線 + 点線の残像 + 四角のハンドル */
+.blob { fill: none; stroke: var(--c, #fff); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1;
+  filter: drop-shadow(0 0 7px var(--c, #fff)); transition: stroke-dashoffset 2s cubic-bezier(0.5, 0, 0.2, 1); }
+.blob-set.on .blob { stroke-dashoffset: 0; }
+.blob-echo { fill: none; stroke: var(--c, #fff); stroke-width: 1.5; stroke-dasharray: 3 9; transform: translate(9px, 9px); opacity: 0; transition: opacity 0.8s ease 1.4s; }
+.blob-set.on .blob-echo { opacity: 1; }
+.blob-handles rect { fill: #03050c; stroke: var(--c, #fff); stroke-width: 1.8; opacity: 0; transition: opacity 0.5s ease 1.6s; }
+.blob-set.on .blob-handles rect { opacity: 1; }
+.blob-label { position: absolute; z-index: 5; white-space: nowrap; padding: 8px 20px 12px; font-size: 32px; font-weight: 800; letter-spacing: 0.08em; background: #000; color: var(--c, #fff); box-shadow: inset 0 -4px 0 var(--c, #fff);
+  opacity: 0; transition: opacity 0.6s ease 0.8s; }
+.blob-set.on .blob-label { opacity: 1; }
+
+/* ラベルとの対応: 輪郭上の点からラベルへ引き出し線を引く */
+.blob-leader { stroke: var(--c, #fff); stroke-width: 1.8; opacity: 0; transition: opacity 0.6s ease 1.1s; }
+.blob-set.on .blob-leader { opacity: 0.9; }
+.blob-anchor { fill: var(--c, #fff); opacity: 0; transition: opacity 0.6s ease 1.1s; }
+.blob-set.on .blob-anchor { opacity: 1; }
+
+/* 境界線の色: 白に統一。違いは塗りで表す(多数派=塗りなし / 突き詰める人=塗りつぶし / 自分=斜線) */
+.b-red, .b-green, .b-blue { --c: #ffffff; }
+
+/* blob の塗り(不透明度50%): 線が描かれたあとに現れる。塗りつぶし=突き詰める人 / 斜線=自分 */
+.blob-fill { stroke: none; opacity: 0; transition: opacity 1s ease 1.2s; }
+.blob-fill.solid { fill: #fff; }
+.blob-set.on .blob-fill { opacity: 0.5; }
+
+/* 中間レイヤーの blob(chapter2 のテンプレート): bg の上・コンテンツの下。スライドに入ると線が描かれる */
+.bg-blobs { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; pointer-events: none; z-index: 0; opacity: 0.85; }
+.bg-blobs .blob { stroke-width: 2.2; stroke-dashoffset: 1; }
+.slide.active .bg-blobs .blob { stroke-dashoffset: 0; transition: stroke-dashoffset 3s cubic-bezier(0.5, 0, 0.2, 1); }
+.slide.active .bg-blobs .blob:nth-of-type(2) { transition-delay: 0.4s; }
+.slide.active .bg-blobs .blob:nth-of-type(3) { transition-delay: 0.8s; }
+.bg-blobs .blob-echo { opacity: 0; stroke: var(--c, #fff); }
+.slide.active .bg-blobs .blob-echo { opacity: 0.55; transition: opacity 1s ease 2s; }
+.bg-blobs .blob, .bg-blobs .blob-echo { --c: #fff; }
+
+/* 中間レイヤーのヒートマップ(chapter2): 平面に貼って斜めに置く。bg の上・コンテンツの下 */
+.bg-heat { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-heat .plane { position: absolute; left: 560px; top: 110px;
+  /* 位置の指定: HTML 側の --plane-x / --plane-y(px)で平行移動する。傾き・大きさ(transform)とは別の指定なので、動かしても傾きは変わらない */
+  translate: var(--plane-x, 0px) var(--plane-y, 0px); width: 940px; height: 700px; transform-origin: 50% 50%;
+  transform: perspective(1800px) rotateX(54deg) rotateZ(-20deg) scale(1.15); animation: planeFloat 14s ease-in-out infinite alternate; }
+@keyframes planeFloat { from { transform: perspective(1800px) rotateX(52deg) rotateZ(-22deg) scale(1.15) translateY(-12px); } to { transform: perspective(1800px) rotateX(56deg) rotateZ(-18deg) scale(1.15) translateY(12px); } }
+.bg-heat .heat { position: absolute; inset: 0; width: 940px; height: 700px; }
+.bg-heat .heat-dot { display: none; }
+/* 平面の縁(縁取りと薄い面): ヒートマップが「物体」に貼られていることを見せる */
+.bg-heat .plane::before { content: ''; position: absolute; inset: -6px; border: 2px solid rgba(255, 255, 255, 0.35); background: rgba(3, 5, 12, 0.5); z-index: -1; }
+
+/* 作品スライドの枠(.media)の中の動画・Web 埋め込み */
+.work .media .video-frame.in-media { position: absolute; inset: 0; width: auto; aspect-ratio: auto; background: #000; }
+.work .media .video-frame.in-media::before, .work .media .video-frame.in-media::after { display: none; }
+.work .media .video-frame.in-media .video-ph { border: 0; }
+.work .media .video-frame.in-media .video-ph b { font-size: 56px; }
+.work .media .video-frame.in-media .video-ph span { font-size: 20px; padding: 0 24px; text-align: center; }
+/* 出典(作品スライド): 右下に小さく */
+.work .cite { position: absolute; right: 70px; bottom: 84px; left: auto; top: auto; margin: 0; font: 500 22px/1.4 var(--font-en); letter-spacing: 0.04em; color: var(--dim); text-align: right; z-index: 6; }

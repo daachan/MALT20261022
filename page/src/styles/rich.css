@@ -246,3 +246,18 @@ body.deck[data-design='rich'] .video-frame { left: var(--x); top: var(--y); widt
 body.deck[data-design='rich'] .video-frame::before { box-shadow: 0 0 70px -10px var(--accent); }
 body.deck[data-design='rich'] .video-ph b { font-family: var(--serif); font-weight: 800; }
 body.deck[data-design='rich'] .video-ph span { font-family: var(--mono); font-size: 24px; }
+
+/* 出典(案2): 小さな黒い四角に等幅で */
+body.deck[data-design='rich'] .video-slide .cite { left: auto; top: auto; right: 70px; bottom: 30px; font: 500 20px/1.4 var(--mono); padding: 6px 16px; color: rgba(242, 241, 238, 0.75); }
+
+/* ピンのポップアップ(案2): 明朝・等幅に */
+body.deck[data-design='rich'] .pin-pop::before { box-shadow: 0 0 40px -6px var(--accent); }
+body.deck[data-design='rich'] .pin-pop .video-ph b { font-family: var(--serif); }
+body.deck[data-design='rich'] .pin-pop .video-ph span { font-family: var(--mono); }
+
+/* 境界線ラベル(案2) */
+body.deck[data-design='rich'] .blob-label { font-family: var(--serif); }
+
+/* 作品スライドの枠(案2): 白いカードの中に動画を入れる。カードの余白(上左右16px・下60px)に合わせる */
+body.deck[data-design='rich'] .work .media .video-frame.in-media { inset: 16px 16px 60px 16px; }
+body.deck[data-design='rich'] .work .cite { left: auto; top: auto; right: 60px; bottom: 74px; font: 500 20px/1.4 var(--mono); padding: 6px 16px; color: rgba(242, 241, 238, 0.8); }

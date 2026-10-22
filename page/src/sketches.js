@@ -4,8 +4,12 @@
  * (p5.js / Three.js に差し替える場合も、同じ「start → stop」の契約を守る)
  */
 import { startHeatmap } from './heatmap.js';
+import { startBlobs } from './blobs.js';
 
 const sketches = {
+  /** ヒートマップ上の境界線 blob (svg 要素に付ける。線のみ・塗りなし) */
+  blobs(svg, { light }) { return startBlobs(svg, { light }); },
+
   /** 3点から色が広がるヒートマップ(スライドのステップと連動) */
   heatmap(canvas, { light }) { return startHeatmap(canvas, light); },
 

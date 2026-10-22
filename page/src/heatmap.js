@@ -28,6 +28,8 @@ const POINTS = [
   { id: 'entertainment', x: 0.8, y: 0.8 },
 ];
 const WIGGLE = 9;
+const CX = POINTS.reduce((a, p) => a + p.x, 0) / POINTS.length; // 点の重心(拡大の中心)
+const CY = POINTS.reduce((a, p) => a + p.y, 0) / POINTS.length;
 const MAX_RADIUS = 0.86; // 高さを1としたときの色の最大到達半径
 
 /* ---------- 色変換 (sRGB hex → Oklab) ---------- */
@@ -58,7 +60,7 @@ const makeFrag = (octaves) => `
 precision highp float;
 varying vec2 vUv;
 uniform vec2 uSize, uOff;          // キャンバスの大きさ / コンテナ左上までのずれ(px)
-uniform float uH, uTime, uGrow, uMix, uFlow;
+uniform float uH, uTime, uGrow, uMix, uFlow, uScale;
 uniform vec2 uP0, uP1, uP2;       // 点の位置 (高さ=1 の座標系)
 uniform vec3 uC0, uC1, uC2;       // Oklab
 float hash(vec2 p) { p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
@@ -99,7 +101,7 @@ void main() {
     qq += swirl * (0.35 + f2) * 0.55 + vec2(cos(f2 * 6.28 + t * 0.4), sin(f2 * 6.28 + t * 0.4)) * 0.05 * uFlow;
   }
 
-  float R = mix(0.0, ${MAX_RADIUS.toFixed(3)}, uGrow);
+  float R = mix(0.0, ${MAX_RADIUS.toFixed(3)}, uGrow) * uScale;
   float breathe = 1.0 + 0.05 * sin(t * 0.8);
   float s0 = pow(1.0 - smoothstep(0.0, R * breathe + 0.0001, length(qq - uP0)), 2.0);
   float s1 = pow(1.0 - smoothstep(0.0, R * (2.0 - breathe) + 0.0001, length(qq - uP1)), 2.0);
@@ -140,7 +142,7 @@ function createGL(canvas, octaves) {
   gl.enableVertexAttribArray(loc);
   gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
   const u = {};
-  ['uSize', 'uOff', 'uH', 'uTime', 'uGrow', 'uMix', 'uFlow', 'uP0', 'uP1', 'uP2', 'uC0', 'uC1', 'uC2'].forEach((n) => { u[n] = gl.getUniformLocation(prog, n); });
+  ['uSize', 'uOff', 'uH', 'uTime', 'uGrow', 'uMix', 'uFlow', 'uScale', 'uP0', 'uP1', 'uP2', 'uC0', 'uC1', 'uC2'].forEach((n) => { u[n] = gl.getUniformLocation(prog, n); });
   return { gl, prog, u };
 }
 
@@ -150,7 +152,8 @@ const STAGES = [
   { grow: 0, mix: 0, flow: 0 }, // 1: 点だけ
   { grow: 1, mix: 0, flow: 0 }, // 2: 色が広がる
   { grow: 1, mix: 1, flow: 0 }, // 3: 混ざる
-  { grow: 1, mix: 1, flow: 1 }, // 4: 流れる
+  { grow: 1, mix: 1, flow: 0 }, // 4: (ピンが刺さる。色は変えない)
+  { grow: 1, mix: 1, flow: 1 }, // 5: 流れる
 ];
 
 export function startHeatmap(canvas, light = false) {
@@ -163,8 +166,10 @@ export function startHeatmap(canvas, light = false) {
   const H = root.offsetHeight || 700;
   const scale = light ? 0.26 : 0.42; // 低解像度で計算し、CSS で拡大して使う(流体の柔らかい表現と軽さの両立)
   // キャンバスはコンテナの外側に余白をとり、色が四角い縁で切れて見えないようにする
-  const MX = 120;
-  const MY = 90;
+  // 点の間隔の拡大率(スライドの data-heat-spread)。重心を中心に点・色の広がりをまとめて拡大する
+  const spread = Number(slide?.dataset.heatSpread || 1);
+  const MX = 120 + (spread - 1) * 500;
+  const MY = 90 + (spread - 1) * 500;
   const CW = W + MX * 2;
   const CH = H + MY * 2;
   canvas.style.cssText = `left:${-MX}px;top:${-MY}px;width:${CW}px;height:${CH}px;`;
@@ -190,9 +195,15 @@ export function startHeatmap(canvas, light = false) {
       ease: goingUp ? 'power2.out' : 'power2.inOut',
     });
   }
+  // data-heat-stage があるスライドは、その段階に固定して表示する(アニメーションなしで最終状態から)
+  // data-heat-reveal="N": ステップ N に達したとき、点から色が広がって最終状態(混ざって流れる)まで一気に進む。それまでは何も見えない
+  const reveal = slide?.dataset.heatReveal;
+  const toStage = (step) => (reveal !== undefined ? (step >= Number(reveal) ? STAGES.length - 1 : 0) : step);
+  const fixed = slide?.dataset.heatStage;
   const readStep = () => Number(slide?.dataset.step || 0);
-  setStage(readStep(), false);
-  const onStep = (e) => { if (e.detail.el === slide) setStage(e.detail.step); };
+  if (fixed !== undefined) setStage(Number(fixed), true);
+  else setStage(toStage(readStep()), false);
+  const onStep = (e) => { if (fixed === undefined && e.detail.el === slide) setStage(toStage(e.detail.step)); };
   document.addEventListener('stepchange', onStep);
 
   // 点の wiggle (位置は固定を基準にして、わずかにゆらす)
@@ -204,8 +215,8 @@ export function startHeatmap(canvas, light = false) {
     const t = (performance.now() - t0) / 1000;
     POINTS.forEach((p, i) => {
       const ph = phase[i];
-      pos[i].x = p.x * W + (Math.sin(t * 0.7 + ph[0]) * 0.65 + Math.sin(t * 1.31 + ph[1]) * 0.35) * WIGGLE;
-      pos[i].y = p.y * H + (Math.cos(t * 0.6 + ph[2]) * 0.65 + Math.cos(t * 1.17 + ph[3]) * 0.35) * WIGGLE;
+      pos[i].x = (CX + (p.x - CX) * spread) * W + (Math.sin(t * 0.7 + ph[0]) * 0.65 + Math.sin(t * 1.31 + ph[1]) * 0.35) * WIGGLE;
+      pos[i].y = (CY + (p.y - CY) * spread) * H + (Math.cos(t * 0.6 + ph[2]) * 0.65 + Math.cos(t * 1.17 + ph[3]) * 0.35) * WIGGLE;
       dots[i].style.transform = `translate(${pos[i].x}px, ${pos[i].y}px)`;
     });
     if (!ctx) return;
@@ -220,6 +231,7 @@ export function startHeatmap(canvas, light = false) {
     gl.uniform1f(u.uGrow, state.grow);
     gl.uniform1f(u.uMix, state.mix);
     gl.uniform1f(u.uFlow, state.flow);
+    gl.uniform1f(u.uScale, spread);
     // シェーダーは「高さ=1」の座標系
     gl.uniform2f(u.uP0, pos[0].x / H, pos[0].y / H);
     gl.uniform2f(u.uP1, pos[1].x / H, pos[1].y / H);
