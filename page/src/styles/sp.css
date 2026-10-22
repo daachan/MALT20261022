@@ -8,7 +8,7 @@
 
 @media (max-width: 820px) {
   :root { --k: 0.38; }
-  html, body { overscroll-behavior: none; }
+  body.deck { overscroll-behavior: none; }
   .grain { opacity: 0.05 !important; }
   .cursor, .dots, .timer { display: none !important; }
   .rich-top .rt-pal, .rich-top .rt-r, .rich-deco, .rich .crop, .rich-tracker { display: none !important; }
@@ -20,7 +20,8 @@
   .qr-fixed { display: none !important; }
 
   /* ---------------- index ---------------- */
-  body.index { overflow-x: hidden; cursor: auto; }
+  /* overflow-x: clip は、body をスクロール容器にしない(hidden だと body が独立してスクロールを奪い、タッチで縦スクロールできなくなる) */
+  body.index { overflow-x: clip; cursor: auto; }
   body.index .sec, body.index[data-design] .sec:not(.flow) {
     position: relative !important; display: flex !important; flex-direction: column !important; justify-content: center !important;
     height: auto !important; min-height: 100svh !important; padding: 13svh 6vw 11svh !important; gap: 2.4svh !important;
@@ -71,7 +72,8 @@
   body.index .making { padding-top: 12svh !important; justify-content: flex-start !important; }
 
   /* ---------------- chapter (スライド) ---------------- */
-  html, body.deck { overflow: hidden; height: 100%; }
+  /* スライド(chapter)のページだけ、ページ全体のスクロールを止める。index は縦スクロールするので触らない */
+  html:has(body.deck), body.deck { overflow: hidden; height: 100%; }
   .stage { position: fixed !important; left: 0 !important; top: 0 !important; width: 100vw !important; height: 100svh !important; transform: none !important; }
   .slide { position: absolute !important; inset: 0 !important; display: flex !important; flex-direction: column !important; justify-content: center !important;
     padding: 9svh 6vw 15svh !important; gap: 2.2svh !important; align-items: stretch !important; overflow-x: clip !important; overflow-y: auto !important; }
