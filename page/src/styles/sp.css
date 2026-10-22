@@ -1,0 +1,165 @@
+/* =====================================================================
+   スマホ版 (幅 820px 以下)。PC 版の見た目をベースに、散らし配置・固定ステージをやめて
+   「縦に積む」レイアウトへ切り替える。PC 版のスタイルより強くするため !important を使う。
+   - index: 縦スクロールのまま、各セクションを縦積み(1画面に収まらなければ、セクション内で伸びる)
+   - chapter1/2: スライドは全画面。タップ/スワイプ/下のボタンで進む。ヒートマップは幅に合わせて縮小
+   ===================================================================== */
+.sp-nav { display: none; }
+
+@media (max-width: 820px) {
+  :root { --k: 0.38; }
+  html, body { overscroll-behavior: none; }
+  .grain { opacity: 0.05 !important; }
+  .cursor, .dots, .timer { display: none !important; }
+  .rich-top .rt-pal, .rich-top .rt-r, .rich-deco, .rich .crop, .rich-tracker { display: none !important; }
+  .rich-subjects { opacity: 0.4; }
+  .rich-top { padding: 12px 16px !important; }
+  .hud { padding: 12px 16px !important; font-size: 10px !important; }
+  .ann { display: none !important; }
+  .sp-br { display: inline; }
+  .qr-fixed { display: none !important; }
+
+  /* ---------------- index ---------------- */
+  body.index { overflow-x: hidden; cursor: auto; }
+  body.index .sec, body.index[data-design] .sec:not(.flow) {
+    position: relative !important; display: flex !important; flex-direction: column !important; justify-content: center !important;
+    height: auto !important; min-height: 100svh !important; padding: 13svh 6vw 11svh !important; gap: 2.4svh !important;
+  }
+  body.index[data-design] .sec:not(.flow) > *, body.index .sec > *,
+  body.index[data-design] .sec:not(.flow) .scrub-block > *, body.index .sec .scrub-block > * {
+    position: static !important; left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
+    width: auto !important; max-width: 100% !important; margin: 0 !important; rotate: none !important;
+  }
+  body.index .scrub-block { display: flex !important; flex-direction: column; gap: 2svh; max-width: 100%; }
+  body.index .steps ol, body.index[data-design] .steps ol { display: flex !important; flex-direction: column; gap: 1.6svh; }
+  body.index .steps li, body.index[data-design] .steps li { position: static !important; width: auto !important; rotate: none !important; }
+  body.index .source { writing-mode: horizontal-tb !important; }
+  body.index .kan-note { position: absolute !important; right: 5vw !important; bottom: 4svh !important; left: auto !important; top: auto !important; }
+  body.index .scroll-hint { position: absolute !important; left: 6vw !important; bottom: 4svh !important; top: auto !important; }
+  body.index .kan { align-self: center; }
+  body.index .marquee { margin: 1svh -6vw !important; width: auto !important; max-width: none !important; }
+  body.index .marquee .row span { font-size: 15vw !important; }
+  body.index .hero-title { width: 100%; }
+
+  /* 見出しは折り返して、画面幅に収める */
+  body.index .big, body.index .huge, body.index .hero .big { font-size: clamp(24px, 6.8vw, 40px) !important; white-space: normal !important; line-height: 1.3 !important; text-wrap: balance; line-break: strict; }
+  body.index .hero .big { font-size: clamp(34px, 11vw, 60px) !important; }
+  body.index .big > b { font-size: clamp(24px, 7vw, 36px) !important; }
+  body.index .big > i { width: 7vw !important; margin: 0 2vw !important; }
+  body.index .label { gap: 2.4vw; flex-wrap: wrap; }
+  body.index .label b { font-size: clamp(34px, 11vw, 52px) !important; }
+  body.index .label i { width: 8vw !important; }
+  body.index .label span { font-size: clamp(16px, 4.6vw, 24px) !important; }
+  body.index .lead, body.index .body, body.index .scrub, body.index .scrub.dim { font-size: clamp(14px, 4vw, 18px) !important; line-height: 1.9 !important; }
+  body.index .scrub { font-size: clamp(15px, 4.2vw, 19px) !important; }
+  body.index .eyebrow { font-size: 12px !important; }
+  body.index .presented { font-size: clamp(14px, 4.4vw, 20px) !important; }
+  body.index .kan { font-size: clamp(28px, 9vw, 44px) !important; }
+  body.index .cta { padding: 16px 24px !important; font-size: 15px !important; }
+  body.index .steps li b { font-size: clamp(34px, 11vw, 52px) !important; }
+  body.index .steps li span, body.index .summary li span { font-size: clamp(16px, 4.6vw, 22px) !important; line-height: 1.6 !important; }
+  body.index .summary li { display: flex !important; align-items: baseline; gap: 3vw; }
+  body.index .closing { font-size: clamp(19px, 5.6vw, 28px) !important; }
+  body.index .thanks { font-size: clamp(24px, 8vw, 40px) !important; }
+  body.index .img-credit { font-size: 10px !important; }
+  body.index .summary mark { font-size: 1.2em; }
+  body.index[data-design='rich'] .big, body.index[data-design='rich'] .huge { padding: 0.2em 0.45em 0.28em; }
+
+  /* ギャラリー: 縦に積む(傾きなし) */
+  body.index .gallery, body.index .gallery[data-n] { grid-template-columns: 1fr !important; gap: 3.4vh !important; width: 100% !important; max-width: 100% !important; }
+  body.index .g-item, body.index .gallery[data-n] .g-item { transform: none !important; box-shadow: 2.4vw 2.4vw 0 var(--c, #fff) !important; margin-right: 2.4vw; }
+  body.index .making { padding-top: 12svh !important; justify-content: flex-start !important; }
+
+  /* ---------------- chapter (スライド) ---------------- */
+  html, body.deck { overflow: hidden; height: 100%; }
+  .stage { position: fixed !important; left: 0 !important; top: 0 !important; width: 100vw !important; height: 100svh !important; transform: none !important; }
+  .slide { position: absolute !important; inset: 0 !important; display: flex !important; flex-direction: column !important; justify-content: center !important;
+    padding: 9svh 6vw 15svh !important; gap: 2.2svh !important; align-items: stretch !important; overflow-x: clip !important; overflow-y: auto !important; }
+  .slide > *, .slide .meta > *, .slide .facts li, .slide .viewpoints li, .slide .cmp {
+    position: static !important; left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
+    width: auto !important; max-width: 100% !important; margin: 0 !important; rotate: none !important; }
+  .slide > :not(.bg-heat):not(.heat):not(.cmp-note):not(.heat-layer) { position: relative !important; z-index: 1; }
+  .slide .meta { display: flex !important; flex-direction: column; gap: 1.6svh; }
+  .slide h1 { font-size: clamp(30px, 10vw, 52px) !important; line-height: 1.25 !important; padding: 12px 20px 16px !important; width: auto !important; }
+  .slide h2 { text-wrap: balance; word-break: auto-phrase; line-break: strict; font-size: clamp(22px, 7vw, 40px) !important; line-height: 1.25 !important; padding: 8px 18px 12px !important; width: auto !important; }
+  .slide h3 { font-size: clamp(20px, 6.4vw, 32px) !important; padding: 8px 18px 12px !important; width: fit-content !important; }
+  .slide p, .slide > p { font-size: clamp(14px, 4.2vw, 20px) !important; line-height: 1.7 !important; padding: 8px 16px 12px; }
+  .slide .kicker { font-size: clamp(14px, 4vw, 20px) !important; gap: 12px !important; padding: 8px 14px !important; }
+  .slide .kicker::before { width: 28px !important; height: 2px !important; }
+  .slide .exit-hint { font-size: 13px !important; }
+  .stage .rb { display: inline; }
+
+  .slide .facts li, .slide .viewpoints li { position: relative !important; isolation: isolate; }
+  .slide .facts { display: flex !important; flex-direction: column; gap: 3svh; }
+  .slide .facts li { display: block !important; padding: 14px 18px 16px !important; }
+  .slide .facts li b { font-size: 15px !important; margin-bottom: 6px; display: block; }
+  .slide .facts li span { font-size: clamp(22px, 7vw, 34px) !important; }
+  .slide .viewpoints { gap: 3svh !important; flex-direction: column !important; }
+  .slide .viewpoints li span { font-size: clamp(34px, 12vw, 60px) !important; }
+  .slide .viewpoints li b { font-size: 22px !important; }
+  .facts li.vp1::before, .facts li.vp2::before, .facts li.vp3::before,
+  body.deck[data-design='rich'] .facts li.vp1::before, body.deck[data-design='rich'] .facts li.vp2::before, body.deck[data-design='rich'] .facts li.vp3::before { transform: translate(8px, 8px) !important; }
+  .slide .facts li { margin-right: 8px !important; }
+
+  /* 比較表 */
+  .cmp-slide { justify-content: flex-start !important; padding-top: 11svh !important; }
+  .cmp { --cols: 13vw 1fr 1fr 1fr !important; gap: 6px !important; width: 100% !important; }
+  .cmp-head, .cmp-row { gap: 5px !important; }
+  .cmp-head b { font-size: clamp(11px, 3.4vw, 16px) !important; padding: 6px 4px 8px !important; text-align: center; }
+  .cmp-row span { font-size: clamp(10px, 3.1vw, 15px) !important; padding: 10px 5px !important; line-height: 1.35 !important; }
+  .cmp-row .cmp-label { font-size: clamp(11px, 3.2vw, 16px) !important; padding: 10px 2px !important; letter-spacing: 0 !important; }
+  .cmp-note { position: absolute !important; left: 6vw !important; right: 6vw !important; bottom: 14svh !important; top: auto !important; width: auto !important;
+    font-size: clamp(15px, 4.6vw, 22px) !important; padding: 10px 16px 14px !important; }
+
+  /* ヒートマップ(940x700 を幅に合わせて縮小。色は canvas、点とラベルは中の要素) */
+  .heat-slide { justify-content: flex-start !important; padding-top: calc(13svh + 700px * var(--k)) !important; }
+  .heat-slide .heat, .heat-static .heat { position: absolute !important; left: 50% !important; right: auto !important; top: 11svh !important;
+    margin: 0 0 0 -470px !important; width: 940px !important; max-width: none !important; height: 700px !important; transform: scale(var(--k)) !important; transform-origin: 50% 0 !important; }
+  .heat-slide .kicker { position: static !important; }
+  .heat-slide .heat-note { position: static !important; width: auto !important; font-size: clamp(14px, 4vw, 18px) !important; padding: 8px 14px !important; }
+  .heat-dot span { font-size: 56px !important; padding: 6px 22px 10px !important; }
+  .heat-dot i { transform: scale(1.8); }
+  .heat-static { padding-top: 0 !important; }
+  /* ピン(動画のポップアップ): 画面幅に合わせて大きく、タップで開く */
+  .pin svg { width: 66px; height: 93px; left: -33px; }
+  .pin-pop { width: 900px; height: 506px; bottom: 120px; }
+  /* 境界線の凡例(ラベルは線に引き出さず、ヒートマップの下に並べる) */
+  .blob-label { font-size: 44px !important; left: 40px !important; right: auto !important; transform: none !important; white-space: nowrap; padding: 8px 20px 12px 78px !important; }
+  .b-red .blob-label { top: 730px !important; }
+  .b-green .blob-label { top: 830px !important; }
+  .b-blue .blob-label { top: 930px !important; }
+  .blob-label::before { content: ''; position: absolute; left: 18px; top: 50%; width: 42px; height: 28px; margin-top: -14px; border: 4px solid #fff; }
+  .b-green .blob-label::before { background: #fff; }
+  .b-blue .blob-label::before { background: repeating-linear-gradient(135deg, #fff 0 4px, transparent 4px 10px); }
+  .blob-leader, .blob-anchor { display: none !important; }
+  .heat-static:has(.blob-set) { padding-top: 0 !important; }
+  /* 境界線のスライド: ヒートマップと凡例(高さ約1010px×縮小率)を画面の縦中央に置く */
+  .heat-static:has(.blob-set) .heat { top: max(8svh, calc((100svh - 1010px * var(--k)) / 2)) !important; }
+
+  /* 動画スライド */
+  .video-slide .video-frame, .video-slide .video-frame.interactive { position: relative !important; width: 100% !important; margin-right: 8px !important; }
+  .video-frame::before { transform: translate(8px, 8px) !important; }
+  .video-slide .cite, .work .cite { position: static !important; font-size: 11px !important; padding: 4px 8px !important; text-align: left !important; word-break: break-all; }
+
+  /* chapter2: 作品スライド(縦に積む) */
+  .work { justify-content: flex-start !important; padding-top: 8svh !important; }
+  .work .media { position: relative !important; width: 100% !important; height: auto !important; aspect-ratio: 16 / 10; padding: 8px 8px 30px !important; box-shadow: 0 0 24px rgba(var(--accent-rgb), 0.4); order: 0; }
+  body.deck[data-design='rich'] .work .media .video-frame.in-media, .work .media .video-frame.in-media { inset: 8px 8px 30px 8px !important; }
+  .work .tag { font-size: 13px !important; padding: 8px 14px !important; align-self: flex-start; }
+  .work .meta h2 { font-size: clamp(24px, 8.4vw, 42px) !important; }
+  .work .credit { font-size: clamp(13px, 3.8vw, 18px) !important; }
+  .work .meta p:not(.credit) { font-size: clamp(14px, 4vw, 18px) !important; }
+  .bg-heat { position: absolute !important; left: -70px !important; top: 30svh !important; width: 1000px !important; max-width: none !important; height: 800px !important; inset: auto !important;
+    transform: scale(calc(var(--k) * 1.45)) !important; transform-origin: 0 0 !important; overflow: visible !important; }
+  .bg-heat .plane { left: 20px !important; top: 20px !important; translate: 0 0 !important; }
+  .pin-hud { scale: 2.4; }
+
+  /* 操作ボタン・HUD */
+  .deck-hud { padding: 10px 16px calc(12px + env(safe-area-inset-bottom)) !important; grid-template-columns: 1fr 2fr 1fr !important; }
+  .deck-hud .keys { display: none !important; }
+  .deck-hud .hud-l { font-size: 10px; letter-spacing: 0.12em !important; white-space: nowrap; }
+  .sp-nav { display: flex; position: fixed; right: 12px; bottom: calc(44px + env(safe-area-inset-bottom)); z-index: 120; gap: 10px; }
+  .sp-nav button { width: 52px; height: 52px; border: 1px solid rgba(255, 255, 255, 0.7); background: rgba(3, 5, 12, 0.85); color: #fff; font-size: 22px; line-height: 1; }
+  .sp-nav button:active { background: var(--accent); color: #000; }
+  .help { display: none !important; }
+}

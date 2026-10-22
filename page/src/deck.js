@@ -90,7 +90,11 @@ help.innerHTML = `
 document.body.appendChild(help);
 
 /* ---------- 縮尺 (16:9固定 + レターボックス) ---------- */
+const SP = matchMedia('(max-width: 820px)');
 function fit() {
+  // スマホ幅: ステージは全画面(CSS)。ヒートマップ(940px 幅)を画面幅に収めるための縮小率だけ渡す
+  document.documentElement.style.setProperty('--k', Math.min(1, (innerWidth - 24) / 940).toFixed(4));
+  if (SP.matches) { stage.style.transform = ''; return; }
   const k = Math.min(innerWidth / W, innerHeight / H);
   stage.style.transform = `translate(-50%, -50%) scale(${k})`;
 }
@@ -198,6 +202,23 @@ slides.forEach((sl) => {
   heat.appendChild(layer);
 });
 
+/* ---------- スマホ操作: 画面下のボタン / 横スワイプ(左へ=進む・右へ=戻る) ---------- */
+const spNav = document.createElement('div');
+spNav.className = 'sp-nav';
+spNav.innerHTML = '<button type="button" aria-label="戻る">‹</button><button type="button" aria-label="進む">›</button>';
+document.body.appendChild(spNav);
+spNav.children[0].addEventListener('click', (e) => { e.stopPropagation(); prev(); });
+spNav.children[1].addEventListener('click', (e) => { e.stopPropagation(); next(); });
+let touch0 = null;
+addEventListener('touchstart', (e) => { if (e.touches.length === 1) touch0 = [e.touches[0].clientX, e.touches[0].clientY]; }, { passive: true });
+addEventListener('touchend', (e) => {
+  if (!touch0 || !e.changedTouches.length) return;
+  const dx = e.changedTouches[0].clientX - touch0[0];
+  const dy = e.changedTouches[0].clientY - touch0[1];
+  touch0 = null;
+  if (Math.abs(dx) > 56 && Math.abs(dx) > Math.abs(dy) * 1.6) { if (dx < 0) next(); else prev(); }
+}, { passive: true });
+
 /* ---------- スケッチ (表示中のスライドだけ動かす) ---------- */
 let stopSketches = [];
 function syncSketches() {
@@ -270,9 +291,15 @@ function syncVideos() {
 slides.forEach((sl) => sl.querySelectorAll('.pin').forEach((pin) => {
   const pop = pin.querySelector('.pin-pop');
   if (!pop) return; // chapter2 の位置ピンには動画ポップアップがない
-  pin.addEventListener('mouseenter', () => { pin.classList.add('open'); mountYouTube(pop); });
-  pin.addEventListener('mouseleave', () => { pin.classList.remove('open'); unmountYouTube(pop); });
-  pin.addEventListener('click', (e) => e.stopPropagation()); // ピンのクリックでスライドが進まないように
+  const touchOnly = matchMedia('(hover: none)');
+  const openPin = () => { pin.classList.add('open'); mountYouTube(pop); };
+  const closePin = () => { pin.classList.remove('open'); unmountYouTube(pop); };
+  pin.addEventListener('mouseenter', () => { if (!touchOnly.matches) openPin(); });
+  pin.addEventListener('mouseleave', () => { if (!touchOnly.matches) closePin(); });
+  pin.addEventListener('click', (e) => { // ピンのクリックでスライドが進まないように。タッチ端末ではタップで開閉
+    e.stopPropagation();
+    if (touchOnly.matches) { if (pin.classList.contains('open')) closePin(); else { slides[i].querySelectorAll('.pin.open').forEach((p2) => { p2.classList.remove('open'); unmountYouTube(p2.querySelector('.pin-pop')); }); openPin(); } }
+  });
 }));
 /* 埋め込みページ内をクリックするとキー操作が iframe に移るため、マウスが枠から出たらスライドへ戻す */
 slides.forEach((sl) => sl.querySelectorAll('.video-frame[data-embed]').forEach((fr) => {

@@ -8,6 +8,13 @@ const store = {
   del(k) { try { localStorage.removeItem(k); } catch { /* noop */ } },
 };
 
+/* ---------- QR コード(PC のみ・画面右上に固定。スマホ幅では CSS で非表示) ---------- */
+const qr = document.createElement('img');
+qr.className = 'qr-fixed';
+qr.src = `${import.meta.env.BASE_URL}images/qr/QR_646827.png`;
+qr.alt = 'QR コード';
+document.body.appendChild(qr);
+
 /* ---------- ページ遷移ワイプ ---------- */
 const wipe = document.createElement('div');
 wipe.className = 'wipe';
@@ -44,7 +51,8 @@ export const lightMode = {
     toast(on ? '軽量モード ON' : '軽量モード OFF');
   },
 };
-if (store.get('lt-light') === '1') document.body.classList.add('light-mode');
+// 保存された設定がなければ、タッチ端末(スマホ)は軽量モードで始める
+if (store.get('lt-light') === '1' || (store.get('lt-light') === null && matchMedia('(pointer: coarse)').matches)) document.body.classList.add('light-mode');
 
 /* ---------- トースト ---------- */
 const toastEl = document.createElement('div');

@@ -35,6 +35,11 @@ body.light-mode .grain { display: none; }
   80% { transform: translate(5%, 2%); } 100% { transform: translate(0, 0); }
 }
 
+.sp-br { display: none; }
+
+/* QR コード(PC のみ): 画面右上に固定。最前面のレイヤー(移動しない) */
+.qr-fixed { position: fixed; top: 14px; right: 14px; z-index: 2147483000; width: 92px; height: 92px; padding: 6px; background: #fff; pointer-events: none; image-rendering: pixelated; }
+
 /* ページ遷移ワイプ */
 .wipe {
   position: fixed; inset: 0; z-index: 200; background: var(--accent);
