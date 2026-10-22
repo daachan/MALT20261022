@@ -278,4 +278,34 @@ body.is-clean .rich-subjects, body.is-clean .rich-deco, body.is-clean .geo { opa
 .work .media .video-frame.in-media .video-ph b { font-size: 56px; }
 .work .media .video-frame.in-media .video-ph span { font-size: 20px; padding: 0 24px; text-align: center; }
 /* 出典(作品スライド): 右下に小さく */
-.work .cite { position: absolute; right: 70px; bottom: 84px; left: auto; top: auto; margin: 0; font: 500 22px/1.4 var(--font-en); letter-spacing: 0.04em; color: var(--dim); text-align: right; z-index: 6; }
+.work .cite { position: absolute; right: 70px; top: 52px; bottom: auto; left: auto; top: auto; margin: 0; font: 500 22px/1.4 var(--font-en); letter-spacing: 0.04em; color: var(--dim); text-align: right; z-index: 6; }
+
+/* chapter2: ヒートマップの平面の上のピン。平面は傾いているが、ピンは立てて(billboard)見せる */
+.bg-heat .plane, .bg-heat .heat, .bg-heat .heat-pins { transform-style: preserve-3d; }
+.bg-heat .heat-pins { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.bg-heat .heat-pins .pin { pointer-events: none; transform-origin: 0 0; transform: rotateZ(20deg) rotateX(-54deg); transform-style: preserve-3d; }
+/* 位置マーカー(chapter2 専用): 下向きの三角(▼) + その下の円。円の中心が刺した位置。
+   周りの HUD(ブロブ追跡の枠・水色の光)に合わせ、輪・脈動・四隅のブラケット・光の筋を重ねる。
+   chapter1 のピン(しずく型・動画のポップアップ付き)とは別の見た目 */
+.pin-hud { position: absolute; left: 0; top: 0; width: 0; height: 0; opacity: 0; }
+.bg-heat.on .pin-hud { animation: markIn 0.8s cubic-bezier(0.3, 1.4, 0.5, 1) 3s both; }
+@keyframes markIn { from { opacity: 0; transform: translateY(-130px); } to { opacity: 1; transform: none; } }
+.pin-hud i { position: absolute; display: block; }
+/* ▼ とその残像(上へ浮かんで消える) */
+.pin-hud .tri { left: -19px; top: -60px; width: 0; height: 0; border-left: 19px solid transparent; border-right: 19px solid transparent; border-top: 30px solid #fff; filter: drop-shadow(0 0 9px rgba(var(--accent-rgb), 0.95)) drop-shadow(0 0 3px #fff); animation: markBob 1.6s ease-in-out 3.8s infinite alternate; }
+.pin-hud .tri.echo { border-top-color: rgba(var(--accent-rgb), 0.9); filter: none; opacity: 0; animation: markEcho 2.4s ease-out 3.8s infinite; }
+@keyframes markBob { from { transform: translateY(0); } to { transform: translateY(-8px); } }
+@keyframes markEcho { from { opacity: 0.8; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(-34px) scale(0.8); } }
+/* 光の筋(▼ から円へ) */
+.pin-hud .beam { left: -1px; top: -26px; width: 2px; height: 20px; background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(var(--accent-rgb), 0.9)); }
+/* 円: 中心の点 + 輪 + 脈動する2重の輪 + 四隅のブラケット */
+.pin-hud .bar { left: -7px; top: -7px; width: 14px; height: 14px; border-radius: 50%; background: radial-gradient(circle, #fff 35%, rgba(var(--accent-rgb), 1) 100%); box-shadow: 0 0 14px 3px rgba(var(--accent-rgb), 0.85); }
+.pin-hud .ring { left: -17px; top: -17px; width: 34px; height: 34px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.8), inset 0 0 8px rgba(var(--accent-rgb), 0.5); }
+.pin-hud .pulse { left: -17px; top: -17px; width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid rgba(var(--accent-rgb), 0.95); opacity: 0; animation: markPulse 2.6s ease-out 3.8s infinite; }
+.pin-hud .pulse.p2 { animation-delay: 5.1s; }
+@keyframes markPulse { from { opacity: 0.9; transform: scale(1); } to { opacity: 0; transform: scale(3); } }
+.pin-hud .bk { width: 10px; height: 10px; border: 2px solid rgba(255, 255, 255, 0.9); }
+.pin-hud .bk.tl { left: -30px; top: -30px; border-right: 0; border-bottom: 0; }
+.pin-hud .bk.tr { left: 20px; top: -30px; border-left: 0; border-bottom: 0; }
+.pin-hud .bk.bl { left: -30px; top: 20px; border-right: 0; border-top: 0; }
+.pin-hud .bk.br { left: 20px; top: 20px; border-left: 0; border-top: 0; }

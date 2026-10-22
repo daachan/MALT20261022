@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- 検索エンジンに載せない(public/robots.txt と public/_headers も同じ方針) -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
   <title>Chapter 2 — メディアアートの作品</title>
   <link rel="stylesheet" href="/src/styles/base.css" />
   <link rel="stylesheet" href="/src/styles/slides.css" />
@@ -12,7 +14,7 @@
   <div class="grain"></div>
 
   <div class="stage">
-    <!-- 作品スライド(2〜9)の構造メモ: bg-heat=ヒートマップの平面(中間レイヤー、--plane-x/--plane-y で平行移動)/ media=画像・動画・Web の枠 /
+    <!-- 作品スライド(2〜11)の構造メモ: bg-heat=ヒートマップの平面(中間レイヤー、--plane-x/--plane-y で平行移動)/ media=画像・動画・Web の枠 /
          出現順: data-step="1"(枠・タグ・作品名・作者・出典)→ data-step="2"(ヒートマップ)→ data-step="3"(解説)。
          枠の中身: data-youtube=YouTube URL(開始秒は t=)/ data-embed=Web サイト(.interactive で操作可)。音はあり(data-mute なし) -->
     <!-- 1 -->
@@ -22,8 +24,14 @@
       <p class="dim" data-step style="--x:8%;--y:74%;--w:1000px">PC・スマホ・センサ…IT機器が生み出す表現を見てみよう</p>
     </section>
 
-    <!-- 2: 作品1(レイアウトA): YouTube(音あり)。works.md の作品1 -->
-    <section class="slide work" data-heat-reveal="2">
+    <!-- 2: テキストスライド「コンセプトは作品を強くする」 -->
+    <section class="slide">
+      <p class="kicker" style="--x:8%;--y:18%">Concept</p>
+      <h2 style="--x:8%;--y:32%;--w:fit-content"><span class="accent">コンセプト</span>は作品を強くする</h2>
+    </section>
+
+    <!-- 3: 作品1(レイアウトA): YouTube(音あり)。works.md の作品1 -->
+    <section class="slide work" data-heat-reveal="2" data-pin-art="0.9" data-pin-ent="0.05" data-pin-design="0.05">
       <div class="bg-heat" data-step="2">
         <div class="plane" style="--plane-x:170px;--plane-y:-110px">
           <div class="heat">
@@ -34,18 +42,18 @@
           </div>
         </div>
       </div>
-      <div class="media" data-step="1" style="--x:6%;--y:24%;--w:780px;--r:-3deg"><div class="video-frame in-media" data-youtube="https://www.youtube.com/watch?v=S-vSFDZGfF4"><div class="video-ph"><b>VIDEO</b><span></span></div></div></div>
+      <div class="media" data-step="1" style="--x:3%;--y:11%;--w:940px;--r:-3deg"><div class="video-frame in-media" data-youtube="https://www.youtube.com/watch?v=S-vSFDZGfF4"><div class="video-ph"><b>VIDEO</b><span></span></div></div></div>
       <div class="meta">
-        <span class="tag" data-step="1" style="--x:50%;--y:58%;--w:auto">切り口（仮）</span>
-        <h2 data-step="1" style="--x:46%;--y:63%;--w:1000px">data-verse 1</h2>
-        <p class="credit" data-step="1" style="--x:50%;--y:78%">Ryoji Ikeda ／ 2019</p>
-        <p data-step="3" style="--x:48%;--y:85%;--w:640px">作品の一言解説がここに入ります。</p>
+        <span class="tag" data-step="1" style="--x:56%;--y:56%;--w:auto">コンセプトは作品を強くする</span>
+        <h2 data-step="1" style="--x:54%;--y:64%;--w:860px">data-verse 1</h2>
+        <p class="credit" data-step="1" style="--x:58%;--y:78.5%">Ryoji Ikeda ／ 2019</p>
+        <p data-step="3" style="--x:56%;--y:86.5%;--w:760px">生命のデータをアートとして利用し、動きに根拠がある</p>
       </div>
       <p class="cite" data-step="1">出典: https://www.youtube.com/watch?v=S-vSFDZGfF4</p>
     </section>
 
-    <!-- 3: 作品2(レイアウトB): YouTube(音あり)。works.md の作品2 -->
-    <section class="slide work" data-heat-reveal="2">
+    <!-- 4: 作品2(レイアウトB): YouTube(音あり)。works.md の作品2 -->
+    <section class="slide work" data-heat-reveal="2" data-pin-art="1" data-pin-ent="0" data-pin-design="0">
       <div class="bg-heat" data-step="2">
         <div class="plane" style="--plane-x:-440px;--plane-y:150px">
           <div class="heat">
@@ -56,18 +64,18 @@
           </div>
         </div>
       </div>
-      <div class="media" data-step="1" style="--x:52%;--y:14%;--w:780px;--r:3deg"><div class="video-frame in-media" data-youtube="https://www.youtube.com/watch?v=0S43IwBF0uM"><div class="video-ph"><b>VIDEO</b><span></span></div></div></div>
+      <div class="media" data-step="1" style="--x:47%;--y:11%;--w:940px;--r:3deg"><div class="video-frame in-media" data-youtube="https://www.youtube.com/watch?v=0S43IwBF0uM"><div class="video-ph"><b>VIDEO</b><span></span></div></div></div>
       <div class="meta">
-        <span class="tag" data-step="1" style="--x:6%;--y:16%;--w:auto">切り口（仮）</span>
-        <h2 data-step="1" style="--x:6%;--y:23%;--w:860px">Star Guitar</h2>
+        <span class="tag" data-step="1" style="--x:6%;--y:16%;--w:auto">コンセプトは作品を強くする</span>
+        <h2 data-step="1" style="--x:6%;--y:23%;--w:760px;font-size:99px">Star Guitar</h2>
         <p class="credit" data-step="1" style="--x:8%;--y:38%">The Chemical Brothers</p>
-        <p data-step="3" style="--x:6%;--y:46%;--w:640px">作品の一言解説がここに入ります。</p>
+        <p data-step="3" style="--x:6%;--y:46%;--w:640px">音楽の表現の解釈に新たな視点を与えた作品</p>
       </div>
       <p class="cite" data-step="1">出典: https://www.youtube.com/watch?v=0S43IwBF0uM</p>
     </section>
 
-    <!-- 4: 作品3(レイアウトA): Web サイトを埋め込み(枠の中をクリックして操作)。works.md の作品3 -->
-    <section class="slide work" data-heat-reveal="2">
+    <!-- 5: 作品3(レイアウトA): YouTube(音あり)。works.md の作品3 -->
+    <section class="slide work" data-heat-reveal="2" data-pin-art="0.7" data-pin-ent="0.15" data-pin-design="0.15">
       <div class="bg-heat" data-step="2">
         <div class="plane" style="--plane-x:170px;--plane-y:-110px">
           <div class="heat">
@@ -78,42 +86,26 @@
           </div>
         </div>
       </div>
-      <div class="media" data-step="1" style="--x:6%;--y:24%;--w:780px;--r:-3deg"><div class="video-frame in-media interactive" data-embed="https://patatap.com/"><div class="video-ph"><b>WEB</b><span></span></div></div></div>
+      <div class="media" data-step="1" style="--x:3%;--y:11%;--w:940px;--r:-3deg"><div class="video-frame in-media" data-youtube="https://www.youtube.com/watch?v=GlhV-OKHecI"><div class="video-ph"><b>VIDEO</b><span></span></div></div></div>
       <div class="meta">
-        <span class="tag" data-step="1" style="--x:50%;--y:58%;--w:auto">切り口（仮）</span>
-        <h2 data-step="1" style="--x:46%;--y:63%;--w:1000px">Patatap</h2>
-        <p class="credit" data-step="1" style="--x:50%;--y:78%">Jono Brandel / Lullatone</p>
-        <p data-step="3" style="--x:48%;--y:85%;--w:640px">作品の一言解説がここに入ります。</p>
-      </div>
-      <p class="cite" data-step="1">出典: https://patatap.com/</p>
-    </section>
-
-    <!-- 5: 作品4(レイアウトB): YouTube(音あり)。works.md の作品4 -->
-    <section class="slide work" data-heat-reveal="2">
-      <div class="bg-heat" data-step="2">
-        <div class="plane" style="--plane-x:-440px;--plane-y:150px">
-          <div class="heat">
-            <canvas data-sketch="heatmap"></canvas>
-            <div class="heat-dot" data-id="art"><i></i><span>アート</span></div>
-            <div class="heat-dot" data-id="design"><i></i><span>デザイン</span></div>
-            <div class="heat-dot" data-id="entertainment"><i></i><span>エンタメ</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="media" data-step="1" style="--x:52%;--y:14%;--w:780px;--r:3deg"><div class="video-frame in-media" data-youtube="https://www.youtube.com/watch?v=GlhV-OKHecI"><div class="video-ph"><b>VIDEO</b><span></span></div></div></div>
-      <div class="meta">
-        <span class="tag" data-step="1" style="--x:6%;--y:16%;--w:auto">切り口（仮）</span>
-        <h2 data-step="1" style="--x:6%;--y:23%;--w:860px">Terminal Slam</h2>
-        <p class="credit" data-step="1" style="--x:8%;--y:38%">Squarepusher</p>
-        <p data-step="3" style="--x:6%;--y:46%;--w:640px">作品の一言解説がここに入ります。</p>
+        <span class="tag" data-step="1" style="--x:56%;--y:56%;--w:auto">コンセプトは作品を強くする</span>
+        <h2 data-step="1" style="--x:54%;--y:64%;--w:860px;font-size:96px">Terminal Slam</h2>
+        <p class="credit" data-step="1" style="--x:58%;--y:78.5%">Squarepusher</p>
+        <p data-step="3" style="--x:56%;--y:86.5%;--w:760px">社会への問いをアートに託す</p>
       </div>
       <p class="cite" data-step="1">出典: https://www.youtube.com/watch?v=GlhV-OKHecI</p>
     </section>
 
-    <!-- 6: 作品5(レイアウトA): YouTube(音あり)。works.md の作品5 -->
-    <section class="slide work" data-heat-reveal="2">
+    <!-- 6: テキストスライド「メディアアートは個性を生む」 -->
+    <section class="slide">
+      <p class="kicker" style="--x:10%;--y:22%">Individuality</p>
+      <h2 style="--x:10%;--y:36%;--w:fit-content"><span class="accent">メディアアート</span>は個性を生む</h2>
+    </section>
+
+    <!-- 7: 作品4(レイアウトB): YouTube(音あり)。works.md の作品4 -->
+    <section class="slide work" data-heat-reveal="2" data-pin-art="0.5" data-pin-ent="0.4" data-pin-design="0.1">
       <div class="bg-heat" data-step="2">
-        <div class="plane" style="--plane-x:170px;--plane-y:-110px">
+        <div class="plane" style="--plane-x:-440px;--plane-y:150px">
           <div class="heat">
             <canvas data-sketch="heatmap"></canvas>
             <div class="heat-dot" data-id="art"><i></i><span>アート</span></div>
@@ -122,40 +114,18 @@
           </div>
         </div>
       </div>
-      <div class="media" data-step="1" style="--x:6%;--y:24%;--w:780px;--r:-3deg"><div class="video-frame in-media" data-youtube="https://youtu.be/LnuO7vVbelQ?t=3044"><div class="video-ph"><b>VIDEO</b><span></span></div></div></div>
+      <div class="media" data-step="1" style="--x:47%;--y:11%;--w:940px;--r:3deg"><div class="video-frame in-media" data-youtube="https://youtu.be/LnuO7vVbelQ?t=3044"><div class="video-ph"><b>VIDEO</b><span></span></div></div></div>
       <div class="meta">
-        <span class="tag" data-step="1" style="--x:50%;--y:58%;--w:auto">切り口（仮）</span>
-        <h2 data-step="1" style="--x:46%;--y:63%;--w:1000px;font-size:88px">Kikuoland Go-Round</h2>
-        <p class="credit" data-step="1" style="--x:50%;--y:78%">Kikuo ／ 2025</p>
-        <p data-step="3" style="--x:48%;--y:85%;--w:640px">作品の一言解説がここに入ります。</p>
+        <span class="tag" data-step="1" style="--x:6%;--y:16%;--w:auto">メディアアートは個性を生む</span>
+        <h2 data-step="1" style="--x:6%;--y:23%;--w:760px;font-size:60px">Kikuoland Go-Round</h2>
+        <p class="credit" data-step="1" style="--x:8%;--y:38%">Kikuo ／ 2025</p>
+        <p data-step="3" style="--x:6%;--y:46%;--w:640px">自身の世界を表現する手段として利用</p>
       </div>
       <p class="cite" data-step="1">出典: https://youtu.be/LnuO7vVbelQ?t=3044</p>
     </section>
 
-    <!-- 7: 作品6(レイアウトB): YouTube(音あり)。works.md の作品6 -->
-    <section class="slide work" data-heat-reveal="2">
-      <div class="bg-heat" data-step="2">
-        <div class="plane" style="--plane-x:-440px;--plane-y:150px">
-          <div class="heat">
-            <canvas data-sketch="heatmap"></canvas>
-            <div class="heat-dot" data-id="art"><i></i><span>アート</span></div>
-            <div class="heat-dot" data-id="design"><i></i><span>デザイン</span></div>
-            <div class="heat-dot" data-id="entertainment"><i></i><span>エンタメ</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="media" data-step="1" style="--x:52%;--y:14%;--w:780px;--r:3deg"><div class="video-frame in-media" data-youtube="https://www.youtube.com/watch?v=w8G0JykmHMw&t=6s"><div class="video-ph"><b>VIDEO</b><span></span></div></div></div>
-      <div class="meta">
-        <span class="tag" data-step="1" style="--x:6%;--y:16%;--w:auto">切り口（仮）</span>
-        <h2 data-step="1" style="--x:6%;--y:23%;--w:860px">Rector v1.1.1</h2>
-        <p class="credit" data-step="1" style="--x:8%;--y:38%">shivaduke（しばづけ）</p>
-        <p data-step="3" style="--x:6%;--y:46%;--w:640px">作品の一言解説がここに入ります。</p>
-      </div>
-      <p class="cite" data-step="1">出典: https://www.youtube.com/watch?v=w8G0JykmHMw&t=6s</p>
-    </section>
-
-    <!-- 8: 作品7(レイアウトA): YouTube(音あり)。works.md の作品7 -->
-    <section class="slide work" data-heat-reveal="2">
+    <!-- 8: 作品5(レイアウトA): YouTube(音あり)。works.md の作品5 -->
+    <section class="slide work" data-heat-reveal="2" data-pin-art="0.6" data-pin-ent="0.3" data-pin-design="0.1">
       <div class="bg-heat" data-step="2">
         <div class="plane" style="--plane-x:170px;--plane-y:-110px">
           <div class="heat">
@@ -166,18 +136,18 @@
           </div>
         </div>
       </div>
-      <div class="media" data-step="1" style="--x:6%;--y:24%;--w:780px;--r:-3deg"><div class="video-frame in-media" data-youtube="https://www.youtube.com/watch?v=_QjzW95wqlU"><div class="video-ph"><b>VIDEO</b><span></span></div></div></div>
+      <div class="media" data-step="1" style="--x:3%;--y:11%;--w:940px;--r:-3deg"><div class="video-frame in-media" data-youtube="https://www.youtube.com/watch?v=w8G0JykmHMw&t=6s"><div class="video-ph"><b>VIDEO</b><span></span></div></div></div>
       <div class="meta">
-        <span class="tag" data-step="1" style="--x:50%;--y:58%;--w:auto">切り口（仮）</span>
-        <h2 data-step="1" style="--x:46%;--y:63%;--w:1000px;font-size:66px">塔エントランスのテーマ</h2>
-        <p class="credit" data-step="1" style="--x:50%;--y:78%">スプラトゥーン3 サイドオーダー</p>
-        <p data-step="3" style="--x:48%;--y:85%;--w:640px">作品の一言解説がここに入ります。</p>
+        <span class="tag" data-step="1" style="--x:56%;--y:56%;--w:auto">メディアアートは個性を生む</span>
+        <h2 data-step="1" style="--x:54%;--y:64%;--w:860px;font-size:96px">Rector v1.1.1</h2>
+        <p class="credit" data-step="1" style="--x:58%;--y:78.5%">shivaduke（しばづけ）</p>
+        <p data-step="3" style="--x:56%;--y:86.5%;--w:760px">同じVJ作品でも根底から違う</p>
       </div>
-      <p class="cite" data-step="1">出典: https://www.youtube.com/watch?v=_QjzW95wqlU</p>
+      <p class="cite" data-step="1">出典: https://www.youtube.com/watch?v=w8G0JykmHMw&t=6s</p>
     </section>
 
-    <!-- 9: 作品8(レイアウトB): YouTube(音あり)。works.md の作品8 -->
-    <section class="slide work" data-heat-reveal="2">
+    <!-- 9: 作品6(レイアウトB): YouTube(音あり)。works.md の作品6 -->
+    <section class="slide work" data-heat-reveal="2" data-pin-art="0.9" data-pin-ent="0.05" data-pin-design="0.05">
       <div class="bg-heat" data-step="2">
         <div class="plane" style="--plane-x:-440px;--plane-y:150px">
           <div class="heat">
@@ -188,20 +158,137 @@
           </div>
         </div>
       </div>
-      <div class="media" data-step="1" style="--x:52%;--y:14%;--w:780px;--r:3deg"><div class="video-frame in-media" data-youtube="https://www.youtube.com/watch?v=EO2CO0X-bAQ"><div class="video-ph"><b>VIDEO</b><span></span></div></div></div>
+      <div class="media" data-step="1" style="--x:47%;--y:11%;--w:940px;--r:3deg"><div class="video-frame in-media" data-youtube="https://www.youtube.com/watch?v=EO2CO0X-bAQ"><div class="video-ph"><b>VIDEO</b><span></span></div></div></div>
       <div class="meta">
-        <span class="tag" data-step="1" style="--x:6%;--y:16%;--w:auto">切り口（仮）</span>
-        <h2 data-step="1" style="--x:6%;--y:23%;--w:860px;font-size:68px">Musical map of World</h2>
+        <span class="tag" data-step="1" style="--x:6%;--y:16%;--w:auto">メディアアートは個性を生む</span>
+        <h2 data-step="1" style="--x:6%;--y:23%;--w:760px;font-size:54px">Musical map of World</h2>
         <p class="credit" data-step="1" style="--x:8%;--y:38%">MIDI ART</p>
-        <p data-step="3" style="--x:6%;--y:46%;--w:640px">作品の一言解説がここに入ります。</p>
+        <p data-step="3" style="--x:6%;--y:46%;--w:640px">ツールをキャンバスする新たな視点</p>
       </div>
       <p class="cite" data-step="1">出典: https://www.youtube.com/watch?v=EO2CO0X-bAQ</p>
     </section>
 
-    <!-- 10: 締め -->
+    <!-- 10: 作品7(レイアウトA): YouTube(音あり)。works.md の作品7 -->
+    <section class="slide work" data-heat-reveal="2" data-pin-art="0.9" data-pin-ent="0.05" data-pin-design="0.05">
+      <div class="bg-heat" data-step="2">
+        <div class="plane" style="--plane-x:170px;--plane-y:-110px">
+          <div class="heat">
+            <canvas data-sketch="heatmap"></canvas>
+            <div class="heat-dot" data-id="art"><i></i><span>アート</span></div>
+            <div class="heat-dot" data-id="design"><i></i><span>デザイン</span></div>
+            <div class="heat-dot" data-id="entertainment"><i></i><span>エンタメ</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="media" data-step="1" style="--x:3%;--y:11%;--w:940px;--r:-3deg"><div class="video-frame in-media" data-youtube="https://www.youtube.com/watch?v=XhmEKppdyxs"><div class="video-ph"><b>VIDEO</b><span></span></div></div></div>
+      <div class="meta">
+        <span class="tag" data-step="1" style="--x:56%;--y:56%;--w:auto">メディアアートは個性を生む</span>
+        <h2 data-step="1" style="--x:54%;--y:64%;--w:860px;font-size:96px">Live MIDI Art</h2>
+        <p class="credit" data-step="1" style="--x:58%;--y:78.5%">GLASYS</p>
+        <p data-step="3" style="--x:56%;--y:86.5%;--w:760px">技術とアイデアは時に個性を生む</p>
+      </div>
+      <p class="cite" data-step="1">出典: https://www.youtube.com/watch?v=XhmEKppdyxs</p>
+    </section>
+
+    <!-- 11: テキストスライド「体験をアートにする」 -->
+    <section class="slide">
+      <p class="kicker" style="--x:8%;--y:16%">Experience</p>
+      <h2 style="--x:8%;--y:30%;--w:fit-content"><span class="accent">体験</span>をアートにする</h2>
+    </section>
+
+    <!-- 12: 作品8(レイアウトB): Web サイトを埋め込み(枠の中をクリックして操作)。works.md の作品8 -->
+    <section class="slide work" data-heat-reveal="2" data-pin-art="0.4" data-pin-ent="0.2" data-pin-design="0.4">
+      <div class="bg-heat" data-step="2">
+        <div class="plane" style="--plane-x:-440px;--plane-y:150px">
+          <div class="heat">
+            <canvas data-sketch="heatmap"></canvas>
+            <div class="heat-dot" data-id="art"><i></i><span>アート</span></div>
+            <div class="heat-dot" data-id="design"><i></i><span>デザイン</span></div>
+            <div class="heat-dot" data-id="entertainment"><i></i><span>エンタメ</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="media" data-step="1" style="--x:47%;--y:11%;--w:940px;--r:3deg"><div class="video-frame in-media interactive" data-embed="https://patatap.com/"><div class="video-ph"><b>WEB</b><span></span></div></div></div>
+      <div class="meta">
+        <span class="tag" data-step="1" style="--x:6%;--y:16%;--w:auto">体験をアートにする</span>
+        <h2 data-step="1" style="--x:6%;--y:23%;--w:760px">Patatap</h2>
+        <p class="credit" data-step="1" style="--x:8%;--y:38%">Jono Brandel / Lullatone</p>
+        <p data-step="3" style="--x:6%;--y:46%;--w:640px">目で耳で指で誰でも楽しめる</p>
+      </div>
+      <p class="cite" data-step="1">出典: https://patatap.com/</p>
+    </section>
+
+    <!-- 13: 作品9(レイアウトA): YouTube(音あり)。works.md の作品9 -->
+    <section class="slide work" data-heat-reveal="2" data-pin-art="0.3" data-pin-ent="0.4" data-pin-design="0.3">
+      <div class="bg-heat" data-step="2">
+        <div class="plane" style="--plane-x:170px;--plane-y:-110px">
+          <div class="heat">
+            <canvas data-sketch="heatmap"></canvas>
+            <div class="heat-dot" data-id="art"><i></i><span>アート</span></div>
+            <div class="heat-dot" data-id="design"><i></i><span>デザイン</span></div>
+            <div class="heat-dot" data-id="entertainment"><i></i><span>エンタメ</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="media" data-step="1" style="--x:3%;--y:11%;--w:940px;--r:-3deg"><div class="video-frame in-media" data-youtube="https://www.youtube.com/watch?v=_QjzW95wqlU"><div class="video-ph"><b>VIDEO</b><span></span></div></div></div>
+      <div class="meta">
+        <span class="tag" data-step="1" style="--x:56%;--y:56%;--w:auto">体験をアートにする</span>
+        <h2 data-step="1" style="--x:54%;--y:64%;--w:860px;font-size:68px">塔エントランスのテーマ</h2>
+        <p class="credit" data-step="1" style="--x:58%;--y:78.5%">スプラトゥーン3 サイドオーダー</p>
+        <p data-step="3" style="--x:56%;--y:86.5%;--w:760px">セオリーの逸脱 = アイデア</p>
+      </div>
+      <p class="cite" data-step="1">出典: https://www.youtube.com/watch?v=_QjzW95wqlU</p>
+    </section>
+
+    <!-- 14: 作品10(レイアウトB): YouTube(音あり)。works.md の作品10 -->
+    <section class="slide work" data-heat-reveal="2" data-pin-art="0.5" data-pin-ent="0.5" data-pin-design="0">
+      <div class="bg-heat" data-step="2">
+        <div class="plane" style="--plane-x:-440px;--plane-y:150px">
+          <div class="heat">
+            <canvas data-sketch="heatmap"></canvas>
+            <div class="heat-dot" data-id="art"><i></i><span>アート</span></div>
+            <div class="heat-dot" data-id="design"><i></i><span>デザイン</span></div>
+            <div class="heat-dot" data-id="entertainment"><i></i><span>エンタメ</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="media" data-step="1" style="--x:47%;--y:11%;--w:940px;--r:3deg"><div class="video-frame in-media" data-youtube="https://www.youtube.com/watch?v=HdJk8ROpuEo"><div class="video-ph"><b>VIDEO</b><span></span></div></div></div>
+      <div class="meta">
+        <span class="tag" data-step="1" style="--x:6%;--y:16%;--w:auto">体験をアートにする</span>
+        <h2 data-step="1" style="--x:6%;--y:23%;--w:760px">Everything</h2>
+        <p class="credit" data-step="1" style="--x:8%;--y:38%">David OReilly</p>
+        <p data-step="3" style="--x:6%;--y:46%;--w:640px">世界観に入る強いメッセージ性</p>
+      </div>
+      <p class="cite" data-step="1">出典: https://www.youtube.com/watch?v=HdJk8ROpuEo</p>
+    </section>
+
+    <!-- 15: 作品11(レイアウトA): YouTube(音あり)。works.md の作品11 -->
+    <section class="slide work" data-heat-reveal="2" data-pin-art="0.3" data-pin-ent="0.4" data-pin-design="0.3">
+      <div class="bg-heat" data-step="2">
+        <div class="plane" style="--plane-x:170px;--plane-y:-110px">
+          <div class="heat">
+            <canvas data-sketch="heatmap"></canvas>
+            <div class="heat-dot" data-id="art"><i></i><span>アート</span></div>
+            <div class="heat-dot" data-id="design"><i></i><span>デザイン</span></div>
+            <div class="heat-dot" data-id="entertainment"><i></i><span>エンタメ</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="media" data-step="1" style="--x:3%;--y:11%;--w:940px;--r:-3deg"><div class="video-frame in-media" data-youtube="https://youtu.be/BRiKQIVo7ao"><div class="video-ph"><b>VIDEO</b><span></span></div></div></div>
+      <div class="meta">
+        <span class="tag" data-step="1" style="--x:56%;--y:56%;--w:auto">体験をアートにする</span>
+        <h2 data-step="1" style="--x:54%;--y:64%;--w:860px">Gris</h2>
+        <p class="credit" data-step="1" style="--x:58%;--y:78.5%">Launch Trailer ／ PlayStation</p>
+        <p data-step="3" style="--x:56%;--y:86.5%;--w:760px">サービス体験の向上にも作用することも</p>
+      </div>
+      <p class="cite" data-step="1">出典: https://youtu.be/BRiKQIVo7ao</p>
+    </section>
+
+    <!-- 16: 締め -->
     <section class="slide">
       <p class="kicker" style="--x:8%;--y:14%">Next</p>
       <h2 class="accent" style="--x:8%;--y:28%">色々な作品に触れて<br />アイデアを蓄えよう！</h2>
+      <p class="dim" style="--x:8%;--y:62%;--w:fit-content">好きな作品は見つかりましたか？</p>
       <p class="exit-hint" data-step style="--x:8%;--y:78%">→ NEXT: INDEX に戻る</p>
     </section>
   </div>

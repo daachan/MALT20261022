@@ -168,6 +168,36 @@ addEventListener('click', (e) => {
   if (e.shiftKey) prev(); else next();
 });
 
+/* ---------- chapter2: 作品の位置にピンを刺す ----------
+ * <section data-pin-art="0.8" data-pin-ent="0.2" data-pin-design="0.3">  (すべて 0.0〜1.0)
+ * 3点(アート=上 / エンタメ=右下 / デザイン=左下)の「値で重みづけした平均」の位置に、ヒートマップの平面の上へピンを置く。
+ *   位置 = (アート×アートの点 + エンタメ×エンタメの点 + デザイン×デザインの点) ÷ 3つの合計
+ *   - 3つの値の「比」だけが位置を決める(合計が1でなくてもよい)
+ *   - アート1.0・他0.0 → アートの点 / 3つ同じ → 3点の中央 / アートとエンタメが同じ → その中間
+ * 3つとも未指定(または 0)のスライドには、ピンを置かない。 */
+const PIN_POINTS = { art: [0.5, 0.19], ent: [0.8, 0.8], design: [0.2, 0.8] }; // heatmap.js の POINTS と同じ
+/** 位置マーカー: 下向きの三角(▼)と、その下の円(輪・脈動・四隅のブラケット・光の筋を重ねて、周りの HUD に合わせる)。円の中心が刺した位置。
+ *  立てて表示する(billboard)ので、全体を位置より上に置き、平面の下に潜らないようにしている。 */
+const pinHud = () => '<div class="pin-hud"><i class="beam"></i><i class="tri echo"></i><i class="tri"></i><i class="pulse"></i><i class="pulse p2"></i><i class="ring"></i><i class="bar"></i><i class="bk tl"></i><i class="bk tr"></i><i class="bk bl"></i><i class="bk br"></i></div>';
+export function pinPosition({ art = 0, ent = 0, design = 0 }) {
+  const v = { art, ent, design };
+  const sum = art + ent + design;
+  if (!(sum > 0)) return null;
+  return [0, 1].map((k) => (v.art * PIN_POINTS.art[k] + v.ent * PIN_POINTS.ent[k] + v.design * PIN_POINTS.design[k]) / sum);
+}
+slides.forEach((sl) => {
+  const heat = sl.querySelector('.bg-heat .heat');
+  if (!heat) return;
+  const num = (k) => { const n = parseFloat(sl.dataset[k]); return Number.isFinite(n) ? Math.min(1, Math.max(0, n)) : 0; };
+  const pos = pinPosition({ art: num('pinArt'), ent: num('pinEnt'), design: num('pinDesign') });
+  if (!pos) return;
+  const layer = document.createElement('div');
+  layer.className = 'heat-pins';
+  const at = `left:${(pos[0] * 100).toFixed(1)}%;top:${(pos[1] * 100).toFixed(1)}%`;
+  layer.innerHTML = `<div class="pin" style="${at}">${pinHud()}</div>`;
+  heat.appendChild(layer);
+});
+
 /* ---------- スケッチ (表示中のスライドだけ動かす) ---------- */
 let stopSketches = [];
 function syncSketches() {
@@ -210,6 +240,7 @@ function mountYouTube(frame) {
   frame.appendChild(f);
 }
 function unmountYouTube(frame) {
+  if (!frame) return;
   frame.querySelector('iframe')?.remove();
   frame.classList.remove('ready');
 }
@@ -238,6 +269,7 @@ function syncVideos() {
 /* ヒートマップのピン: マウスを合わせている間だけ、ピンの上に YouTube を表示して再生する */
 slides.forEach((sl) => sl.querySelectorAll('.pin').forEach((pin) => {
   const pop = pin.querySelector('.pin-pop');
+  if (!pop) return; // chapter2 の位置ピンには動画ポップアップがない
   pin.addEventListener('mouseenter', () => { pin.classList.add('open'); mountYouTube(pop); });
   pin.addEventListener('mouseleave', () => { pin.classList.remove('open'); unmountYouTube(pop); });
   pin.addEventListener('click', (e) => e.stopPropagation()); // ピンのクリックでスライドが進まないように

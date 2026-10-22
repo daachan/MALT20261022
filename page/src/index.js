@@ -83,6 +83,40 @@ document.querySelectorAll('.label i, .big > i').forEach((line) => {
   });
 });
 
+/* ギャラリー: 枚数をレイアウト用に data-n へ入れる。動画は画面に入っている間だけ再生する */
+document.querySelectorAll('.gallery').forEach((g) => { g.dataset.n = String(Math.min(3, g.querySelectorAll('.g-item').length)); /* 最大3枠 */ });
+/* Web サイトの枠: 画面に入っている間だけ iframe を読み込む */
+const ytId = (v) => { const m = String(v || '').match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})/); return m ? m[1] : ''; };
+const ytStart = (v) => { const m = String(v || '').match(/[?&#]t=(\d+)/); return m ? Number(m[1]) : 0; };
+const webItems = [...document.querySelectorAll('.g-item.web[data-embed], .g-item.yt[data-youtube]')];
+if (webItems.length && 'IntersectionObserver' in window) {
+  const wio = new IntersectionObserver((entries) => {
+    entries.forEach((en) => {
+      const el = en.target;
+      const f = el.querySelector('iframe');
+      if (en.isIntersecting && !f && navigator.onLine) {
+        const i = document.createElement('iframe');
+        if (el.dataset.youtube) {
+          const id = ytId(el.dataset.youtube); const st = ytStart(el.dataset.youtube);
+          i.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1${st ? `&start=${st}` : ''}`;
+          i.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+        } else i.src = el.dataset.embed;
+        i.title = 'embedded content';
+        el.appendChild(i);
+        el.classList.add('ready');
+      } else if (!en.isIntersecting && f) { f.remove(); el.classList.remove('ready'); }
+    });
+  }, { threshold: 0.4 });
+  webItems.forEach((el) => wio.observe(el));
+}
+const galleryVideos = [...document.querySelectorAll('.gallery video')];
+if (galleryVideos.length && 'IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((en) => { if (en.isIntersecting) en.target.play().catch(() => {}); else en.target.pause(); });
+  }, { threshold: 0.4 });
+  galleryVideos.forEach((v) => { v.muted = true; io.observe(v); });
+}
+
 /* マーキー: スクロール量に連動して横移動 */
 if (!reduce) {
   gsap.fromTo('.marquee .r1', { xPercent: 0 }, {

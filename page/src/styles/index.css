@@ -129,3 +129,62 @@ body[data-design='rich'] .big > b { font-family: var(--mono); font-weight: 300; 
 .hero-title { display: flex; flex-direction: column; align-items: flex-end; gap: 1.6vh; width: fit-content; }
 .presented { font: 600 clamp(14px, min(1.9vw, 3.4vh), 30px)/1 var(--font-en); letter-spacing: 0.22em; color: #fff; }
 .presented mark { background: none; color: var(--accent); }
+
+/* 08 まとめ: 2つの要点 + 結びの一文 + THANK YOU。1画面に収める */
+.summary { gap: 2.2vh; }
+.summary .steps li, .summary li { align-items: flex-start; }
+.summary li b { font-size: clamp(36px, min(5vw, 8vh), 80px); min-width: 0.9em; }
+.summary li span { font-size: clamp(16px, min(2.1vw, 3.8vh), 36px); font-weight: 700; line-height: 1.55; }
+.summary .closing { font-size: clamp(20px, min(3.2vw, 5.6vh), 54px); font-weight: 800; line-height: 1.3; }
+.summary .closing mark { background: none; color: var(--accent); }
+
+/* 08 まとめ: 水色の強調語だけ、文字を大きくする */
+.summary mark { font-size: 1.3em; line-height: 1; }
+
+/* ---------- 作り方: 項目ごとの画像・動画ギャラリー(1〜5枚。個数でレイアウトが変わる) ---------- */
+.making { gap: 2.4vh; }
+.making ol { gap: 0; }
+.label em { font: 500 clamp(12px, 1.1vw, 18px)/1 var(--font-en); letter-spacing: 0.2em; color: var(--dim); font-style: normal; margin-left: 0.4vw; }
+.gallery { display: grid; gap: 1.6vw; width: 100%; align-content: start; }
+.g-item { position: relative; margin: 0; aspect-ratio: 16 / 9; background: #000; overflow: hidden; border: 1px solid var(--line); }
+.g-item img, .g-item video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.g-ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.6vh;
+  background: repeating-linear-gradient(135deg, rgba(242, 241, 238, 0.05) 0 18px, transparent 18px 36px); color: var(--dim); }
+.g-ph b { font: 700 clamp(11px, 1.3vw, 22px)/1 var(--font-en); letter-spacing: 0.3em; }
+.g-ph span { font: 800 clamp(20px, 3vw, 52px)/1 var(--font-en); color: var(--accent); }
+/* 最大3枠。chapter1 の3項目のように、上下と傾きをずらして並べ、色の四角を右下に重ねる(1〜3枚で配置が変わる) */
+.gallery { --c1: #99ccff; --c2: #6699ff; --c3: #ffffff; align-items: start; }
+.gallery[data-n="1"] { grid-template-columns: minmax(0, 62%); justify-content: center; }
+.gallery[data-n="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); width: 84%; }
+.gallery[data-n="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.g-item:nth-child(1) { --c: var(--c1); }
+.g-item:nth-child(2) { --c: var(--c2); }
+.g-item:nth-child(3) { --c: var(--c3); }
+.g-item { overflow: visible; border: 0; box-shadow: 0.7vw 0.7vw 0 var(--c, #fff); }
+.gallery[data-n="3"] .g-item:nth-child(1) { transform: translateY(0); }
+.gallery[data-n="3"] .g-item:nth-child(2) { transform: translateY(6vh) rotate(-1.2deg); }
+.gallery[data-n="3"] .g-item:nth-child(3) { transform: translateY(2.4vh) rotate(1.2deg); }
+.gallery[data-n="2"] .g-item:nth-child(1) { transform: translateY(0) rotate(-1deg); }
+.gallery[data-n="2"] .g-item:nth-child(2) { transform: translateY(5vh) rotate(1deg); }
+.gallery[data-n="1"] .g-item { transform: rotate(-1deg); }
+.g-item iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; }
+.g-item.web { cursor: auto; }
+/* 項目の見出し(番号 + 文)を横並びにして、ギャラリーの分の高さを空ける */
+.making li { align-items: baseline; }
+.making li b { font-size: clamp(36px, min(5vw, 8vh), 80px); }
+.making li span { font-size: clamp(18px, min(2.8vw, 5vh), 48px); }
+
+/* ギャラリー: YouTube / リンクカード */
+.g-item.yt .g-ph b, .g-item.web .g-ph b { font-size: clamp(11px, 1.2vw, 20px); }
+.g-item.ready .g-ph { display: none; }
+.g-item.yt iframe { pointer-events: none; }
+.g-item.link a { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.8vh; text-align: center; padding: 1vh 1vw; background: #000; color: #fff; }
+.g-item.link b { font: 700 clamp(11px, 1.2vw, 20px)/1 var(--font-en); letter-spacing: 0.3em; color: var(--dim); }
+.g-item.link strong { font: 800 clamp(20px, 2.8vw, 48px)/1.1 var(--font-en); letter-spacing: 0.02em; }
+.g-item.link span { font: 500 clamp(11px, 1.2vw, 20px)/1 var(--font-en); letter-spacing: 0.12em; color: var(--accent); }
+.g-item.link em { font-style: normal; font-size: clamp(10px, 1vw, 16px); color: var(--dim); letter-spacing: 0.1em; margin-top: 0.6vh; }
+.g-item.link a:hover { background: #0a0f1c; }
+
+/* 画像の枠: 画像ファイルがない間はプレースホルダーを見せる(画像が読み込まれたら上に重なる) */
+.g-item.pic img { position: absolute; inset: 0; z-index: 1; }
+.g-item.pic .g-ph em { font: 500 clamp(10px, 1vw, 16px)/1 var(--font-en); font-style: normal; letter-spacing: 0.16em; color: var(--dim); }

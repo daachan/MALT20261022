@@ -1,0 +1,4 @@
+# Cloudflare(Workers 静的アセット / Pages)が全ファイルに付けるレスポンスヘッダー
+/*
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet, noimageindex
+  Referrer-Policy: strict-origin-when-cross-origin

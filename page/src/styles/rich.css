@@ -260,4 +260,34 @@ body.deck[data-design='rich'] .blob-label { font-family: var(--serif); }
 
 /* 作品スライドの枠(案2): 白いカードの中に動画を入れる。カードの余白(上左右16px・下60px)に合わせる */
 body.deck[data-design='rich'] .work .media .video-frame.in-media { inset: 16px 16px 60px 16px; }
-body.deck[data-design='rich'] .work .cite { left: auto; top: auto; right: 60px; bottom: 74px; font: 500 20px/1.4 var(--mono); padding: 6px 16px; color: rgba(242, 241, 238, 0.8); }
+body.deck[data-design='rich'] .work .cite { left: auto; top: auto; right: 60px; top: 62px; bottom: auto; font: 500 20px/1.4 var(--mono); padding: 6px 16px; color: rgba(242, 241, 238, 0.8); }
+
+/* 08 まとめ(案2) */
+body[data-design='rich'] .summary li span { font-family: var(--serif); font-weight: 800; }
+body[data-design='rich'] .summary li b { font-family: var(--serif); font-weight: 500; }
+body[data-design='rich'] .closing { font-family: var(--serif); font-weight: 800; background: #000; padding: 0.3em 0.6em 0.4em; width: fit-content; text-shadow: var(--shadow); }
+body.index[data-design='rich'] .summary li { padding: 1.2vh 1.6vw 1.8vh; }
+
+/* 08 まとめ(案2): 番号を左、文を右に並べて、2要点が縦に積み重ならないようにする */
+body.index[data-design='rich'] .summary li { display: flex; align-items: baseline; gap: 1.4vw; }
+body.index[data-design='rich'] .summary li b { display: inline; font-size: clamp(32px, min(4.2vw, 7vh), 72px); flex: none; }
+body.index[data-design='rich'] .summary li span { font-size: clamp(15px, min(1.7vw, 3vh), 30px); }
+
+/* 06 作り方(案2): 番号を左、文を右に並べ、その下にギャラリー */
+body.index[data-design='rich'] .makes li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.6vh 1.4vw; padding: 1.4vh 1.4vw 1.6vh; }
+body.index[data-design='rich'] .makes li b { display: inline; flex: none; font: 500 clamp(30px, min(3.6vw, 6vh), 64px)/1 var(--serif); }
+body.index[data-design='rich'] .makes li span { display: inline; font-size: clamp(16px, min(2.2vw, 3.8vh), 38px); }
+body[data-design='rich'] .makes .gallery figure { border-color: rgba(var(--accent-rgb), 0.5); }
+
+/* 作り方のギャラリー(案2): 散らし配置の中に置く。各枠は黒い四角 + 水色の四角を右下にずらして重ねる */
+body.index[data-design='rich'] .sec:not(.flow) > .gallery { margin: 0; }
+body.index[data-design='rich'] .making .gallery { gap: 1.8vw; }
+body.index[data-design='rich'] .g-item { border: 0; overflow: visible; box-shadow: 0.7vw 0.7vw 0 var(--c, #fff); }
+body.index[data-design='rich'] .g-item img, body.index[data-design='rich'] .g-item video { position: absolute; inset: 0; }
+body.index[data-design='rich'] .g-ph b { font-family: var(--mono); font-weight: 500; }
+body.index[data-design='rich'] .g-ph span { font-family: var(--serif); }
+body.index[data-design='rich'] .making .label em { background: none; }
+
+body.index[data-design='rich'] .making li { display: flex; align-items: baseline; gap: 1.4vw; padding: 1vh 1.6vw 1.4vh; }
+body.index[data-design='rich'] .making li b { display: inline; flex: none; font-size: clamp(34px, min(4.4vw, 7.4vh), 72px); }
+body.index[data-design='rich'] .making li span { font-size: clamp(18px, min(2.4vw, 4.2vh), 42px); }
