@@ -224,7 +224,8 @@ function syncVideos() {
     if (k !== i) sl.querySelectorAll('.pin').forEach((p) => { p.classList.remove('open'); unmountYouTube(p.querySelector('.pin-pop')); });
     // data-step の要素の中にある枠は、その要素が表示されてから読み込む(見えない間に音が出ないように)
     sl.querySelectorAll('.video-frame[data-youtube], .video-frame[data-embed]').forEach((fr) => {
-      const gate = fr.closest('[data-step]');
+      // 注意: deck がスライド自身にも data-step(現在のステップ数)を付けるため、スライドは除外して探す
+      const gate = fr.closest('[data-step]:not(.slide)');
       const visible = k === i && (!gate || gate.classList.contains('on'));
       if (visible) mountYouTube(fr); else unmountYouTube(fr);
     });
