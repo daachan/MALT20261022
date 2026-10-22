@@ -1,0 +1,9 @@
+{
+  // Cloudflare Workers(静的アセット)のデプロイ設定。`npx wrangler deploy` が dist/ をそのまま配信する。
+  // name は Cloudflare 上のプロジェクト名と一致させる(ダッシュボードの表示名を確認すること)。
+  "name": "malt20261022",
+  "compatibility_date": "2026-10-22",
+  "assets": {
+    "directory": "./dist"
+  }
+}
