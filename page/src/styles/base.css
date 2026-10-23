@@ -37,8 +37,8 @@ body.light-mode .grain { display: none; }
 
 .sp-br { display: none; }
 
-/* QR コード(PC のみ): 画面右上に固定。最前面のレイヤー(移動しない) */
-.qr-fixed { position: fixed; top: 14px; right: 14px; z-index: 2147483000; width: 92px; height: 92px; padding: 6px; background: #fff; pointer-events: none; image-rendering: pixelated; }
+/* QR コード(index の PC のみ): 画面右下に固定(端から余白を多めに)。最前面のレイヤー(移動しない) */
+.qr-fixed { position: fixed; bottom: 44px; right: 44px; z-index: 2147483000; width: 92px; height: 92px; padding: 6px; background: #fff; pointer-events: none; image-rendering: pixelated; }
 
 /* ページ遷移ワイプ */
 .wipe {

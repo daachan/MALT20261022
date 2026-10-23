@@ -8,12 +8,14 @@ const store = {
   del(k) { try { localStorage.removeItem(k); } catch { /* noop */ } },
 };
 
-/* ---------- QR コード(PC のみ・画面右上に固定。スマホ幅では CSS で非表示) ---------- */
-const qr = document.createElement('img');
-qr.className = 'qr-fixed';
-qr.src = `${import.meta.env.BASE_URL}images/qr/QR_646827.png`;
-qr.alt = 'QR コード';
-document.body.appendChild(qr);
+/* ---------- QR コード(index のみ・PC のみ・画面右下に固定。chapter1/2 には出さない。スマホ幅では CSS で非表示) ---------- */
+if (document.body.classList.contains('index')) {
+  const qr = document.createElement('img');
+  qr.className = 'qr-fixed';
+  qr.src = `${import.meta.env.BASE_URL}images/qr/QR_646827.png`;
+  qr.alt = 'QR コード';
+  document.body.appendChild(qr);
+}
 
 /* ---------- ページ遷移ワイプ ---------- */
 const wipe = document.createElement('div');
